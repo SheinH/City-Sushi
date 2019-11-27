@@ -10,7 +10,7 @@
 
 **Output:** This method will output the order ID if it was placed successfully. A successful order requires valid authentication, valid inputs for all fields, and a successful transaction using the given credit card. A number of error codes will be sent back if the order failed:
 
- * 400 – Invalid cust\_id or item\_id
+ * 400 – Invalid cust_id or item_id
  * 401 – User failed to authenticate
  * 404 – Server is currently offline
 
@@ -27,33 +27,33 @@
 * Review text must not be blank or null if the user rates 3 or below.
 
 
-`bid\_order(authentication\_token, order\_id, bid)`
+`bid_order(authentication_token, order_id, bid)`
 
 **Input:** An authenticated deliverer will bid on a specific order. Authentication, order id, and bid price must be provided
 
 **Output:** This function will return a boolean value to signify whether the bid went through successfully. A successful bid requires proper authentication, an order to bid on, and a price which is lower than the current lowest bid. 
 
-`make\_payment(authentication\_token ,cc\_info, order\_id)`
+`make_payment(authentication_token ,cc_info, order_id)`
 
 **Input:** Credit card information is mandatory for making a payment. The order id will determine to which restaurant the payment goes to, how much will be paid, and which order we will pay for. Both must be valid.
 
-**Output:** This function will call upon an external payment system to process this payment. Should the payment be successful, the function will return true. This function will be called by place\_order.
+**Output:** This function will call upon an external payment system to process this payment. Should the payment be successful, the function will return true. This function will be called by place_order.
 
-`add\_cook(authentication\_token, restaurant\_id, name)`
+`add_cook(authentication_token, restaurant_id, name)`
 
 **Input:** The manager authenticates himself and then adds a new cook to the restaurant. His name will have to be provided.
 
 **Output:** If everything is valid, the given name will be registered as a cook for the given restaurant. The function will return the cook’s ID.
 
-A similar function add\_seller will be used to add sellers. The only difference between add seller and add cook is that add seller will instead add the name to a list of sellers.
+A similar function add_seller will be used to add sellers. The only difference between add seller and add cook is that add seller will instead add the name to a list of sellers.
 
-`add\_dish(authentication\_token, cook, dish\_name, dish\_description dish\_price)`
+`add_dish(authentication_token, cook, dish_name, dish_description dish_price)`
 
 **Input:** The cook will have to authenticate himself and then provide a dish name, a dish price, and a description.
 
 **Output:** The given dish will be added to the database and will be available for customers to buy.
 
-`fire\_cook(authentication\_token,cook\_id)`
+`fire_cook(authentication_token,cook_id)`
 
 **Input:** A manager will provide his authentication token along with the id of the cook he wishes to fire.
 
@@ -65,31 +65,31 @@ register(id, email, password)
 
 **Output:** The user will have a pending registration if the email and password are valid. After a manager approves his registration, he will receive an email confirming that he is registered.
 
-`verify\_registration(auth\_token, manager\_id, cust\_id)`
+`verify_registration(auth_token, manager_id, cust_id)`
 
 **Input:**  A manager should validate himself with his token + id and provide a customer id.
 
 **Output:** The given customer, if he is unverified, will be marked as verified and his account will be successfully registered.
 
-`change\_address(cust\_id, cust\_password, new\_address)`
+`change_address(cust_id, cust_password, new_address)`
 
 **Input:**  Customer inputs his credentials with a new address.
 
 **Output:** The customer's address will be changed.
 
-`add\_credit\_card(cust\_id, cust\_password, new\_address)`
+`add_credit_card(cust_id, cust_password, new_address)`
 
 **Input:**  Customer inputs his credentials  alongwith a  credit card.
 
 **Output:** The credit card is registered to the customer.
 
-`mark\_as\_ready(auth\_token, cook\_id, order\_id)`
+`mark_as_ready(auth_token, cook_id, order_id)`
 
 **Input:**  Cook verifies himself and then marks an order as cooked and ready for delivery
 
 **Output:** The item is marked as ready for the delivery person.
 
-`mark\_as\_delivered(auth\_token, cook\_id, order\_id)`
+`mark_as_delivered(auth_token, cook_id, order_id)`
 
 **Input:**  Deliverer verifies himself and then marks an order as delivered
 
