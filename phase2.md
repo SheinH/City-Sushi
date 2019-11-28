@@ -2,7 +2,23 @@
 
 ## Introduction
 
+## Use cases
+
+**Scenarios for each use case: normal AND exceptional scenarios**
+
+![E-R Diagram](img/image008.png)
+
+**Collaboration class diagram for each use case**
+
 ![Diagram 1](img/image001.png)
+
+**State Diagram**
+
+![State Diagram](img/state_diagram.png)
+
+## E-R Diagram
+
+![E-R Diagram](img/image009.jpg)
 
 ## Detailed Design
 
