@@ -2,8 +2,6 @@
 
 ## Introduction
 
-![Diagram 1](img/image001.png)
-
 ## Use cases
 
 **Scenarios for each use case: normal AND exceptional scenarios**
@@ -12,7 +10,7 @@
 
 **Collaboration class diagram for each use case**
 
-
+![Diagram 1](img/image001.png)
 
 **State Diagram**
 
