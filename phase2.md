@@ -2,7 +2,7 @@
 
 ## Introduction
 
-![ER Diagram](img/er_diagram.png)
+![Diagram 1](img/image001.png)
 
 ## Detailed Design
 
@@ -98,4 +98,6 @@ register(id, email, password)
 **Input:**  Deliverer verifies himself and then marks an order as delivered
 
 **Output:** The item is marked as delivered.
+
+## System Screens
 
