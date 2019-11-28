@@ -1,5 +1,9 @@
 # Phase II: Design Report 
 
+## Introduction
+
+![ER Diagram](img/er_diagram.png)
+
 ## Detailed Design
 
 **Methods:**
