@@ -101,3 +101,20 @@ register(id, email, password)
 
 ## System Screens
 
+![Diagram 2](img/image002.png)
+
+![Diagram 3](img/image003.png)
+
+![Diagram 4](img/image004.png)
+
+![Diagram 5](img/image005.png)
+
+![Diagram 6](img/image006.png)
+
+![Diagram 7](img/image007.png)
+
+![Diagram 8](img/image008.png)
+
+**FOR RESTAURANT**
+
+![Diagram 9](img/image009.png)
