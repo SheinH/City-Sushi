@@ -111,8 +111,6 @@ register(id, email, password)
 
 ![Diagram 6](img/image006.png)
 
-![Diagram 7](img/image007.png)
-
 **FOR RESTAURANT**
 
-![Diagram 8](img/image008.png)
+![Diagram 7](img/image007.png)
