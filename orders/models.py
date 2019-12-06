@@ -23,34 +23,6 @@ class Customer(models.Model):
     # TODO: Investigate whether or not Customer can inherit from User instead of Model
 
 
-class Restaurant(models.Model):
-    r_name = models.CharField(max_length=100, blank=False)
-    info = models.CharField(max_length=100, blank=False)
-    location = models.CharField(max_length=50, blank=False)
-    # TODO: Add ___str__() method
-
-
-class Menu(models.Model):
-    item_id = models.ForeignKey(Item, on_delete=models.CASCADE)
-    price = models.IntegerField(blank=False)
-    quantity = models.IntegerField(blank=False, default=0)
-    # TODO: Add ___str__() method
-
-
-# Replace pass with more data
-
-class Dish(models.Model):
-    name = models.CharField(max_length=60)
-    description = models.TextField()
-
-    def __str__(self):
-        return self.name
-
-    def rating(self):
-        reviews = self.review_set.all()
-        return sum(x.rating for x in reviews) / len(reviews)
-
-
 class Review(models.Model):
     dish = models.ForeignKey(Dish, on_delete=models.CASCADE)
     reviewer = models.ForeignKey(User, on_delete=models.DO_NOTHING)
@@ -67,3 +39,88 @@ class Review(models.Model):
         super().clean()
         if self.rating <= 3 and self.rating is None:
             raise ValidationError('Review required for low rating')
+
+
+class Restaurant(models.Model):
+    r_name = models.CharField(max_length=100, blank=False)
+    info = models.CharField(max_length=100, blank=False)
+    location = models.CharField(max_length=50, blank=False)
+
+    def __str__(self):
+        return self.r_name
+
+
+class Manager(models.Model):
+    m_name = models.CharField(max_length=50)
+    m_email = models.CharField(max_length=50)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.r_name
+
+
+class Sales(models.Model):
+    s_name = models.CharField(max_length=50)
+    commission = models.IntegerField(default=0)
+    #TODO: ADD MAX 3 SET TO LAID OFF
+    warning = models.IntegerField(default=0)
+    s_laid_off = models.BooleanField(default=False)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.s_name
+
+
+class Cooks(models.Model):
+    c_name = models.CharField(max_length=50)
+    commission = models.IntegerField(default=0)
+    #TODO: ADD MAX 3 SET TO LAID OFF
+    warning = models.IntegerField(default=0)
+    c_laid_off = models.BooleanField(default=False)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    #TODO: ADD RATING/REVIEW CONNECTIONS
+
+    def __str__(self):
+        return self.c_name
+
+
+class Inventory(models.Model):
+    i_name = models.CharField(max_length=50)
+    time_stored = models.IntegerField(default=0)
+    amount = models.IntegerField(default=0)
+    rating = models.IntegerField(default=0)
+    restaurant = models.ManyToManyField(Sales)
+
+    # TODO: ADD RATING CONNECTIONS
+
+    def __str__(self):
+        return self.i_name
+
+
+class User(models.Model):
+    u_name = models.CharField(max_length=100, blank=False)
+    u_adress = models.CharField(max_length=200, blank=False)
+    u_email = models.CharField(max_length=50, blank=False)
+    black_list = models.BooleanField(default=False)
+
+class Customer(models.Model):
+    f_name = models.CharField(max_length=20, blank=False)
+    l_name = models.CharField(max_length=20, blank=False)
+    phone = models.CharField(max_length=10, blank=False)
+    address = models.TextField()
+    # TODO: Add ___str__() method
+    # TODO: Investigate whether or not Customer can inherit from User instead of Model
+
+
+#
+# class Dish(models.Model):
+#     name = models.CharField(max_length=60)
+#     description = models.TextField()
+#
+#     def __str__(self):
+#         return self.name
+#
+#     def rating(self):
+#         reviews = self.review_set.all()
+#         return sum(x.rating for x in reviews) / len(reviews)
+
