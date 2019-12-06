@@ -14,10 +14,18 @@ from django.db import models
 # I think customer can inherit from User but i'm not sure
 # class Customer(User): might be better
 
-class Customer(models.Model):
-    f_name = models.CharField(max_length=20, blank=False)
-    l_name = models.CharField(max_length=20, blank=False)
-    phone = models.CharField(max_length=10, blank=False)
+class Visitor(models.Model):
+    f_name = models.CharField(max_length=100, blank=False, null=False)
+    l_name = models.CharField(max_length=100, blank=False, null=False)
+    address = models.CharField(max_length=200, blank=False, null=False)
+    email = models.CharField(max_length=50, blank=False, null=False)
+    blacklisted = models.BooleanField(default=False)
+
+    def getFullName(self):
+        return f'{self.f_name} {self.l_name}'
+
+
+class Customer(Visitor):
     address = models.TextField()
     # TODO: Add ___str__() method
     # TODO: Investigate whether or not Customer can inherit from User instead of Model
@@ -42,9 +50,9 @@ class Review(models.Model):
 
 
 class Restaurant(models.Model):
-    r_name = models.CharField(max_length=100, blank=False)
-    info = models.CharField(max_length=100, blank=False)
-    location = models.CharField(max_length=50, blank=False)
+    r_name = models.CharField(max_length=100, blank=False, null=False)
+    info = models.CharField(max_length=100, blank=False, null=False)
+    location = models.CharField(max_length=50, blank=False, null=False)
 
     def __str__(self):
         return self.r_name
@@ -62,7 +70,7 @@ class Manager(models.Model):
 class Sales(models.Model):
     s_name = models.CharField(max_length=50)
     commission = models.IntegerField(default=0)
-    #TODO: ADD MAX 3 SET TO LAID OFF
+    # TODO: ADD MAX 3 SET TO LAID OFF
     warning = models.IntegerField(default=0)
     s_laid_off = models.BooleanField(default=False)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
@@ -74,11 +82,12 @@ class Sales(models.Model):
 class Cooks(models.Model):
     c_name = models.CharField(max_length=50)
     commission = models.IntegerField(default=0)
-    #TODO: ADD MAX 3 SET TO LAID OFF
+    # TODO: ADD MAX 3 SET TO LAID OFF
     warning = models.IntegerField(default=0)
     c_laid_off = models.BooleanField(default=False)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-    #TODO: ADD RATING/REVIEW CONNECTIONS
+
+    # TODO: ADD RATING/REVIEW CONNECTIONS
 
     def __str__(self):
         return self.c_name
@@ -97,30 +106,24 @@ class Inventory(models.Model):
         return self.i_name
 
 
-class User(models.Model):
-    u_name = models.CharField(max_length=100, blank=False)
-    u_adress = models.CharField(max_length=200, blank=False)
-    u_email = models.CharField(max_length=50, blank=False)
-    black_list = models.BooleanField(default=False)
+
 
 class Customer(models.Model):
-    f_name = models.CharField(max_length=20, blank=False)
-    l_name = models.CharField(max_length=20, blank=False)
-    phone = models.CharField(max_length=10, blank=False)
+    f_name = models.CharField(max_length=20, blank=False, null=False)
+    l_name = models.CharField(max_length=20, blank=False, null=False)
+    phone = models.CharField(max_length=10, blank=False, null=False)
     address = models.TextField()
     # TODO: Add ___str__() method
     # TODO: Investigate whether or not Customer can inherit from User instead of Model
 
 
-#
-# class Dish(models.Model):
-#     name = models.CharField(max_length=60)
-#     description = models.TextField()
-#
-#     def __str__(self):
-#         return self.name
-#
-#     def rating(self):
-#         reviews = self.review_set.all()
-#         return sum(x.rating for x in reviews) / len(reviews)
+class Dish(models.Model):
+    name = models.CharField(max_length=60)
+    description = models.TextField()
 
+    def __str__(self):
+        return self.name
+
+    def rating(self):
+        reviews = self.review_set.all()
+        return sum(x.rating for x in reviews) / len(reviews)
