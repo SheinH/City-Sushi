@@ -14,33 +14,6 @@ from django.db import models
 # I think customer can inherit from User but i'm not sure
 # class Customer(User): might be better
 
-class Customer(models.Model):
-    f_name = models.CharField(max_length=20, blank=False)
-    l_name = models.CharField(max_length=20, blank=False)
-    phone = models.CharField(max_length=10, blank=False)
-    address = models.TextField()
-    # TODO: Add ___str__() method
-    # TODO: Investigate whether or not Customer can inherit from User instead of Model
-
-
-class Review(models.Model):
-    dish = models.ForeignKey(Dish, on_delete=models.CASCADE)
-    reviewer = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    rating = models.IntegerField(
-        default=5,
-        validators=[MaxValueValidator(5), MinValueValidator(1)]
-    )
-    review_text = models.TextField(blank=True, null=True)
-
-    def __str__(self):
-        return f'{self.reviewer}: {self.rating} stars'
-
-    def clean(self):
-        super().clean()
-        if self.rating <= 3 and self.rating is None:
-            raise ValidationError('Review required for low rating')
-
-
 class Restaurant(models.Model):
     r_name = models.CharField(max_length=100, blank=False)
     info = models.CharField(max_length=100, blank=False)
@@ -62,8 +35,8 @@ class Manager(models.Model):
 class Sales(models.Model):
     s_name = models.CharField(max_length=50)
     commission = models.IntegerField(default=0)
-    #TODO: ADD MAX 3 SET TO LAID OFF
-    warning = models.IntegerField(default=0)
+    warning = models.IntegerField(default=3,
+        validators=[MaxValueValidator(3), MinValueValidator(0)])
     s_laid_off = models.BooleanField(default=False)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
 
@@ -74,8 +47,8 @@ class Sales(models.Model):
 class Cooks(models.Model):
     c_name = models.CharField(max_length=50)
     commission = models.IntegerField(default=0)
-    #TODO: ADD MAX 3 SET TO LAID OFF
-    warning = models.IntegerField(default=0)
+    warning = models.IntegerField(default=3,
+        validators=[MaxValueValidator(3), MinValueValidator(0)])
     c_laid_off = models.BooleanField(default=False)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     #TODO: ADD RATING/REVIEW CONNECTIONS
@@ -112,15 +85,42 @@ class Customer(models.Model):
     # TODO: Investigate whether or not Customer can inherit from User instead of Model
 
 
-#
-# class Dish(models.Model):
-#     name = models.CharField(max_length=60)
-#     description = models.TextField()
-#
-#     def __str__(self):
-#         return self.name
-#
-#     def rating(self):
-#         reviews = self.review_set.all()
-#         return sum(x.rating for x in reviews) / len(reviews)
+class Payment_Info(models.Model):
+    bank = models.CharField(max_length=50, blank=False)
+    card_num = models.IntegerField(default=0)
+    exp_date = models.DateField()
+    cvv = models.IntegerField(default=0)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+
+class Dish(models.Model):
+    name = models.CharField(max_length=60)
+    description = models.TextField()
+
+    def __str__(self):
+         return self.name
+
+    def rating(self):
+        reviews = self.review_set.all()
+        return sum(x.rating for x in reviews) / len(reviews)
+
+
+class Review(models.Model):
+    dish = models.ForeignKey(Dish, on_delete=models.CASCADE)
+    reviewer = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    cook = models.ForeignKey(Cooks, on_delete=models.DO_NOTHING)
+    inventory = models.ForeignKey(Inventory, on_delete=models.DO_NOTHING)
+    rating = models.IntegerField(
+        default=5,
+        validators=[MaxValueValidator(5), MinValueValidator(1)]
+    )
+    review_text = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.reviewer}: {self.rating} stars'
+
+    def clean(self):
+        super().clean()
+        if self.rating <= 3 and self.rating is None:
+            raise ValidationError('Review required for low rating')
+
 
