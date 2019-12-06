@@ -26,7 +26,7 @@ class Visitor(models.Model):
 
 
 class Customer(Visitor):
-    u_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     # TODO: Add ___str__() method
     # TODO: Investigate whether or not Customer can inherit from User instead of Model
 
