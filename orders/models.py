@@ -21,6 +21,8 @@ class Customer(models.Model):
     address = models.TextField()
     # TODO: Add ___str__() method
     # TODO: Investigate whether or not Customer can inherit from User instead of Model
+    def __str__(self):
+        return self.user.username
 
 
 class Restaurant(models.Model):
@@ -28,14 +30,8 @@ class Restaurant(models.Model):
     info = models.CharField(max_length=100, blank=False)
     location = models.CharField(max_length=50, blank=False)
     # TODO: Add ___str__() method
-
-
-class Menu(models.Model):
-    item_id = models.ForeignKey(Item, on_delete=models.CASCADE)
-    price = models.IntegerField(blank=False)
-    quantity = models.IntegerField(blank=False, default=0)
-    # TODO: Add ___str__() method
-
+    def __str__(self):
+        return self.rname
 
 # Replace pass with more data
 
