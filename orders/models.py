@@ -8,8 +8,14 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+#IMPORTANT NOTE: Django already has built-in User
+#We will not create our own and we will use django's user
+
 # Added a few more models. Feel free to change this.
 # I'll leave the pkey and fkey out for now.
+
+#I think customer can inherit from User but i'm not sure
+#class Customer(User): might be better
 
 class Customer(models.Model):
     f_name = models.CharField(max_length=20,blank=False)
