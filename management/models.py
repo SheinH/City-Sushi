@@ -49,25 +49,6 @@ class Payment_Info(models.Model):
     )
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
 
-class Delivery(models.Model):
-    d_f_name = models.CharField(max_length=100, blank=False, null=False)
-    d_l_name = models.CharField(max_length=100, blank=False, null=False)
-    d_phone = models.CharField(max_length=20, blank=False, null=False)
-    rating = models.IntegerField(
-        default=5,
-        validators=[MaxValueValidator(5), MinValueValidator(1)]
-    )
-    review_text = models.TextField(blank=True, null=True)
-    coordinates = models.CharField(max_length=10, blank=False, null=False)
-   # bid = models.ForeignKey(Manager, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f'{self.d_f_name} {self.d_l_name}: phone number {self.d_phone}'
-
-    def rating(self):
-        reviews = self.review_set.all()
-        return sum(x.rating for x in reviews) / len(reviews)
-
 
 class Dish(models.Model):
     name = models.CharField(max_length=60)
@@ -87,7 +68,7 @@ class Order(models.Model):
         default=0,
         validators=[MinValueValidator(1)]
     )
-    #restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     delivery = models.ForeignKey(Delivery, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -118,6 +99,24 @@ class Review(models.Model):
             raise ValidationError('Review required for low rating')
 
 
+class Delivery(models.Model):
+    d_f_name = models.CharField(max_length=100, blank=False, null=False)
+    d_l_name = models.CharField(max_length=100, blank=False, null=False)
+    d_phone = models.CharField(max_length=20, blank=False, null=False)
+    rating = models.IntegerField(
+        default=5,
+        validators=[MaxValueValidator(5), MinValueValidator(1)]
+    )
+    review_text = models.TextField(blank=True, null=True)
+    coordinates = models.CharField(max_length=10, blank=False, null=False)
+   # bid = models.ForeignKey(Manager, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.d_f_name} {self.d_l_name}: phone number {self.d_phone}'
+
+    def rating(self):
+        reviews = self.review_set.all()
+        return sum(x.rating for x in reviews) / len(reviews)
 
 #
 # class Restaurant(models.Model):
