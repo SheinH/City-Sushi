@@ -26,27 +26,10 @@ class Visitor(models.Model):
 
 
 class Customer(Visitor):
-    address = models.TextField()
+    u_id = models.ForeignKey(User, on_delete=models.CASCADE)
     # TODO: Add ___str__() method
     # TODO: Investigate whether or not Customer can inherit from User instead of Model
 
-
-class Review(models.Model):
-    dish = models.ForeignKey(Dish, on_delete=models.CASCADE)
-    reviewer = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    rating = models.IntegerField(
-        default=5,
-        validators=[MaxValueValidator(5), MinValueValidator(1)]
-    )
-    review_text = models.TextField(blank=True, null=True)
-
-    def __str__(self):
-        return f'{self.reviewer}: {self.rating} stars'
-
-    def clean(self):
-        super().clean()
-        if self.rating <= 3 and self.rating is None:
-            raise ValidationError('Review required for low rating')
 
 
 class Payment_Info(models.Model):
@@ -80,8 +63,8 @@ class Dish(models.Model):
 class Review(models.Model):
     dish = models.ForeignKey(Dish, on_delete=models.CASCADE)
     reviewer = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    cook = models.ForeignKey(Cook, on_delete=models.DO_NOTHING)
-    inventory = models.ForeignKey(Inventory, on_delete=models.DO_NOTHING)
+    # cook = models.ForeignKey(Cook, on_delete=models.DO_NOTHING)
+    # inventory = models.ForeignKey(Inventory, on_delete=models.DO_NOTHING)
     rating = models.IntegerField(
         default=5,
         validators=[MaxValueValidator(5), MinValueValidator(1)]
@@ -96,59 +79,58 @@ class Review(models.Model):
         if self.rating <= 3 and self.rating is None:
             raise ValidationError('Review required for low rating')
 
-
-class Restaurant(models.Model):
-    r_name = models.CharField(max_length=100, blank=False, null=False)
-    info = models.CharField(max_length=100, blank=False, null=False)
-    location = models.CharField(max_length=50, blank=False, null=False)
-
-    def __str__(self):
-        return self.r_name
-
-
-class Inventory(models.Model):
-    i_name = models.CharField(max_length=50)
-    time_stored = models.IntegerField(default=0)
-    amount = models.IntegerField(default=0)
-    rating = models.IntegerField(default=0)
-    restaurant = models.ManyToManyField(Sales)
-
-    # TODO: ADD RATING CONNECTIONS
-
-    def __str__(self):
-        return self.i_name
-
-
-class Cook(models.Model):
-    c_name = models.CharField(max_length=50)
-    commission = models.IntegerField(default=0)
-    warning = models.IntegerField(default=3,
-                                  validators=[MaxValueValidator(3), MinValueValidator(0)])
-    c_laid_off = models.BooleanField(default=False)
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-
-    # TODO: ADD RATING/REVIEW CONNECTIONS
-
-    def __str__(self):
-        return self.c_name
-
-
-class Manager(models.Model):
-    m_name = models.CharField(max_length=50)
-    m_email = models.CharField(max_length=50)
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.r_name
-
-
-class Sales(models.Model):
-    s_name = models.CharField(max_length=50)
-    commission = models.IntegerField(default=0)
-    warning = models.IntegerField(default=3,
-                                  validators=[MaxValueValidator(3), MinValueValidator(0)])
-    s_laid_off = models.BooleanField(default=False)
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.s_name
+# class Restaurant(models.Model):
+#     r_name = models.CharField(max_length=100, blank=False, null=False)
+#     info = models.CharField(max_length=100, blank=False, null=False)
+#     location = models.CharField(max_length=50, blank=False, null=False)
+#
+#     def __str__(self):
+#         return self.r_name
+#
+#
+# class Inventory(models.Model):
+#     i_name = models.CharField(max_length=50)
+#     time_stored = models.IntegerField(default=0)
+#     amount = models.IntegerField(default=0)
+#     rating = models.IntegerField(default=0)
+#     restaurant = models.ManyToManyField(Sales)
+#
+#     # TODO: ADD RATING CONNECTIONS
+#
+#     def __str__(self):
+#         return self.i_name
+#
+#
+# class Cook(models.Model):
+#     c_name = models.CharField(max_length=50)
+#     commission = models.IntegerField(default=0)
+#     warning = models.IntegerField(default=3,
+#                                   validators=[MaxValueValidator(3), MinValueValidator(0)])
+#     c_laid_off = models.BooleanField(default=False)
+#     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+#
+#     # TODO: ADD RATING/REVIEW CONNECTIONS
+#
+#     def __str__(self):
+#         return self.c_name
+#
+#
+# class Manager(models.Model):
+#     m_name = models.CharField(max_length=50)
+#     m_email = models.CharField(max_length=50)
+#     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+#
+#     def __str__(self):
+#         return self.r_name
+#
+#
+# class Sales(models.Model):
+#     s_name = models.CharField(max_length=50)
+#     commission = models.IntegerField(default=0)
+#     warning = models.IntegerField(default=3,
+#                                   validators=[MaxValueValidator(3), MinValueValidator(0)])
+#     s_laid_off = models.BooleanField(default=False)
+#     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+#
+#     def __str__(self):
+#         return self.s_name
