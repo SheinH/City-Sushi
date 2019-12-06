@@ -106,17 +106,6 @@ class Inventory(models.Model):
         return self.i_name
 
 
-
-
-class Customer(models.Model):
-    f_name = models.CharField(max_length=20, blank=False, null=False)
-    l_name = models.CharField(max_length=20, blank=False, null=False)
-    phone = models.CharField(max_length=10, blank=False, null=False)
-    address = models.TextField()
-    # TODO: Add ___str__() method
-    # TODO: Investigate whether or not Customer can inherit from User instead of Model
-
-
 class Payment_Info(models.Model):
     bank = models.CharField(max_length=50, blank=False)
     card_num = models.IntegerField(default=0)
