@@ -5,33 +5,35 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 
-#IMPORTANT NOTE: Django already has built-in User
-#We will not create our own and we will use django's user
+# IMPORTANT NOTE: Django already has built-in User
+# We will not create our own and we will use django's user
 
 # Added a few more models. Feel free to change this.
 # I'll leave the pkey and fkey out for now.
 
-#I think customer can inherit from User but i'm not sure
-#class Customer(User): might be better
+# I think customer can inherit from User but i'm not sure
+# class Customer(User): might be better
 
 class Customer(models.Model):
-    f_name = models.CharField(max_length=20,blank=False)
-    l_name = models.CharField(max_length=20,blank=False)
-    phone = models.CharField(max_length=10,blank=False)
+    f_name = models.CharField(max_length=20, blank=False)
+    l_name = models.CharField(max_length=20, blank=False)
+    phone = models.CharField(max_length=10, blank=False)
     address = models.TextField()
     # TODO: Add ___str__() method
     # TODO: Investigate whether or not Customer can inherit from User instead of Model
 
+
 class Restaurant(models.Model):
-    r_name = models.CharField(max_length=100,blank=False)
-    info = models.CharField(max_length=100,blank=False)
-    location = models.CharField(max_length=50,blank=False)
+    r_name = models.CharField(max_length=100, blank=False)
+    info = models.CharField(max_length=100, blank=False)
+    location = models.CharField(max_length=50, blank=False)
     # TODO: Add ___str__() method
 
+
 class Menu(models.Model):
-    item_id = models.ForeignKey(Item,on_delete=models.CASCADE)
+    item_id = models.ForeignKey(Item, on_delete=models.CASCADE)
     price = models.IntegerField(blank=False)
-    quantity = models.IntegerField(blank=False,default=0)
+    quantity = models.IntegerField(blank=False, default=0)
     # TODO: Add ___str__() method
 
 
@@ -51,12 +53,12 @@ class Dish(models.Model):
 
 class Review(models.Model):
     dish = models.ForeignKey(Dish, on_delete=models.CASCADE)
-    reviewer = models.ForeignKey(User)
+    reviewer = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     rating = models.IntegerField(
         default=5,
         validators=[MaxValueValidator(5), MinValueValidator(1)]
     )
-    review_text = models.TextField(blank=True,null=True)
+    review_text = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f'{self.reviewer}: {self.rating} stars'
