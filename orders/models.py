@@ -29,6 +29,8 @@ class Customer(Visitor):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     # TODO: Add ___str__() method
     # TODO: Investigate whether or not Customer can inherit from User instead of Model
+    def __str__(self):
+        return self.user.username
 
 
 
