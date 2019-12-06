@@ -1,11 +1,8 @@
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.db import models
-
 # Create your models here.
 from django.db import models
-
-from django.contrib.auth.models import User
 
 
 #IMPORTANT NOTE: Django already has built-in User
@@ -22,16 +19,20 @@ class Customer(models.Model):
     l_name = models.CharField(max_length=20,blank=False)
     phone = models.CharField(max_length=10,blank=False)
     address = models.TextField()
+    # TODO: Add ___str__() method
+    # TODO: Investigate whether or not Customer can inherit from User instead of Model
 
 class Restaurant(models.Model):
     r_name = models.CharField(max_length=100,blank=False)
     info = models.CharField(max_length=100,blank=False)
     location = models.CharField(max_length=50,blank=False)
+    # TODO: Add ___str__() method
 
 class Menu(models.Model):
     item_id = models.ForeignKey(Item,on_delete=models.CASCADE)
     price = models.IntegerField(blank=False)
     quantity = models.IntegerField(blank=False,default=0)
+    # TODO: Add ___str__() method
 
 
 # Replace pass with more data
@@ -45,8 +46,7 @@ class Dish(models.Model):
 
     def rating(self):
         reviews = self.review_set.all()
-        scores = [x.rating for x in reviews]
-        return sum(scores) / len(scores)
+        return sum(x.rating for x in reviews) / len(reviews)
 
 
 class Review(models.Model):
