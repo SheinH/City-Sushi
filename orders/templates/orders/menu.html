@@ -60,7 +60,7 @@
         <td>{{ d.name }}</td>
         <td>{{ d.description }}</td>
         <td>{{ d.rating }}</td>
-        <td><input type="number" name="{{ d.pk }}"/></td>
+        <td><input type="number" min="0" name="{{ d.pk }}"/></td>
     {% endfor %}
 </table>
 <input type="submit" value="Checkout"/>
