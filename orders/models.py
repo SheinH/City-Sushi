@@ -5,15 +5,6 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 
-# IMPORTANT NOTE: Django already has built-in User
-# We will not create our own and we will use django's user
-
-# Added a few more models. Feel free to change this.
-# I'll leave the pkey and fkey out for now.
-
-# I think customer can inherit from User but i'm not sure
-# class Customer(User): might be better
-
 class Visitor(models.Model):
     f_name = models.CharField(max_length=100, blank=False, null=False)
     l_name = models.CharField(max_length=100, blank=False, null=False)
@@ -119,64 +110,3 @@ class Review(models.Model):
 
 
 
-#
-# class Restaurant(models.Model):
-#     r_name = models.CharField(max_length=100, blank=False, null=False)
-#     info = models.CharField(max_length=100, blank=False, null=False)
-#     location = models.CharField(max_length=50, blank=False, null=False)
-#
-#     def __str__(self):
-#         return self.r_name
-#
-#
-# class Inventory(models.Model):
-#     i_name = models.CharField(max_length=50, blank=False, null=False)
-#     time_stored = models.IntegerField(default=0, blank=False, null=False)
-#     amount = models.IntegerField(default=0, blank=False, null=False)
-#     rating = models.IntegerField(
-#         default=5,
-#         validators=[MaxValueValidator(5), MinValueValidator(1)]
-#     )
-#     restaurant = models.ManyToManyField(Sales)
-#
-#     def __str__(self):
-#         return self.i_name
-#
-#     def rating(self):
-#         reviews = self.review_set.all()
-#         return sum(x.rating for x in reviews) / len(reviews)
-#
-#
-# class Cook(models.Model):
-#     c_name = models.CharField(max_length=50, blank=False, null=False)
-#     commission = models.IntegerField(default=0, blank=False, null=False)
-#     warning = models.IntegerField(default=3,
-#                                   validators=[MaxValueValidator(3), MinValueValidator(0)])
-#     c_laid_off = models.BooleanField(default=False)
-#     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-#
-#     def __str__(self):
-#         return self.c_name
-#
-#
-#
-# class Manager(models.Model):
-#     m_name = models.CharField(max_length=50, blank=False, null=False)
-#     m_email = models.CharField(max_length=50, blank=False, null=False)
-#     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-#
-#     def __str__(self):
-#         return self.r_name
-#
-#
-# class Sales(models.Model):
-#     s_name = models.CharField(max_length=50, blank=False, null=False)
-#     commission = models.IntegerField(default=0, blank=False, null=False)
-#     warning = models.IntegerField(default=3,
-#                                   validators=[MaxValueValidator(3), MinValueValidator(0)])
-#     s_laid_off = models.BooleanField(default=False)
-#     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-#
-#     def __str__(self):
-#         return self.s_name
-#
