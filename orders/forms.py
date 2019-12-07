@@ -21,7 +21,10 @@ class CustomerSignUpForm(forms.ModelForm):
 class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
-        fields = ['f_name', 'l_name', 'phone', 'address']
+        fields = ['f_name',
+                  'l_name',
+                  # 'phone',
+                  'address']
 
 
 class ReviewForm(forms.ModelForm):

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from .forms import CustomerSignUpForm, CustomerForm, RestaurantForm, ReviewForm
+from .forms import CustomerSignUpForm, CustomerForm, ReviewForm
 # Create your views here.
 from django.shortcuts import render
 from .models import Visitor, Customer, Payment_Info, Dish, Review
