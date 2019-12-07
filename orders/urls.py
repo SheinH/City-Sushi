@@ -12,5 +12,5 @@ urlpatterns = [
     path('customer/create/', views.createCustomer, name='ccreate'),
     path('user/update/<int:id>/', views.updateCustomer, name='cupdate'),
     path('logout/', views.Logout, name='logout'),
-    path('checkout/', views.checkout, name='checkout')
+    #path('checkout/', views.checkout, name='checkout')
 ]
