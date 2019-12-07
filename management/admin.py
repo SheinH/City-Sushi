@@ -3,8 +3,9 @@ from django.contrib import admin
 
 from .models import *
 
-admin.site.register(Customer)
-admin.site.register(Visitor)
-admin.site.register(Payment_Info)
-admin.site.register(Dish)
-admin.site.register(Review)
+admin.site.register(Restaurant)
+admin.site.register(Manager)
+admin.site.register(Sales)
+admin.site.register(Cook)
+admin.site.register(Delivery)
+admin.site.register(Inventory)

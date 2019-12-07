@@ -55,6 +55,7 @@ class Sales(models.Model):
     def __str__(self):
         return self.s_name
 
+
 class Inventory(models.Model):
     i_name = models.CharField(max_length=50, blank=False, null=False)
     time_stored = models.IntegerField(default=0, blank=False, null=False)
