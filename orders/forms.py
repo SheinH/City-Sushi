@@ -24,12 +24,6 @@ class CustomerForm(forms.ModelForm):
         fields = ['f_name', 'l_name', 'phone', 'address']
 
 
-class RestuarantForm(forms.ModelForm):
-    class Meta:
-        model = Restaurant
-        fields = ['rname', 'info', 'location', 'r_logo', 'min_ord', 'status', 'approved']
-
-
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
