@@ -23,12 +23,8 @@ def orderPlaced(request):
 
 # logout for both users (restaurants and regular customers)
 def Logout(request):
-    if request.user.is_restaurant:
-        logout(request)
-        return redirect("rlogin")
-    else:
-        logout(request)
-        return redirect("login")
+    logout(request)
+    return redirect("login")
 
 
 # Customer side of things
@@ -93,3 +89,5 @@ def updateCustomer(request):
         form.save()
         return redirect('profile')
     return render(request, 'orders/profile_form.html', context={'form': form, 'title': "Update Profile"})
+
+# need to finish checkout function

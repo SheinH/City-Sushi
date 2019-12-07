@@ -8,7 +8,7 @@ class CustomerSignUpForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
+        fields = ['username', 'email', 'phone', 'password']
 
         def save(self, commit=True):
             user = super().save(commit=False)
@@ -21,10 +21,7 @@ class CustomerSignUpForm(forms.ModelForm):
 class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
-        fields = ['f_name',
-                  'l_name',
-                  # 'phone',
-                  'address']
+        fields = ['f_name', 'l_name', 'phone', 'address']
 
 
 class ReviewForm(forms.ModelForm):

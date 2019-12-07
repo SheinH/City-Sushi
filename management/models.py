@@ -13,6 +13,7 @@ class Restaurant(models.Model):
     def __str__(self):
         return self.r_name
 
+
 class Manager(models.Model):
     m_name = models.CharField(max_length=50, blank=False, null=False)
     m_email = models.CharField(max_length=50, blank=False, null=False)
@@ -21,6 +22,7 @@ class Manager(models.Model):
 
     def __str__(self):
         return self.r_name
+
 
 class Delivery(models.Model):
     d_f_name = models.CharField(max_length=100, blank=False, null=False)
@@ -86,9 +88,3 @@ class Cook(models.Model):
 
     def __str__(self):
         return self.c_name
-
-
-
-
-
-

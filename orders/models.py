@@ -10,6 +10,7 @@ class Visitor(models.Model):
     l_name = models.CharField(max_length=100, blank=False, null=False)
     address = models.CharField(max_length=200, blank=False, null=False)
     email = models.CharField(max_length=50, blank=False, null=False)
+    phone = models.CharField(max_length=10, blank=False, null=False)
     blacklisted = models.BooleanField(default=False)
 
     def getFullName(self):
@@ -18,6 +19,7 @@ class Visitor(models.Model):
 
 class Customer(Visitor):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
     # TODO: Add ___str__() method
     # TODO: Investigate whether or not Customer can inherit from User instead of Model
 
@@ -40,6 +42,7 @@ class Payment_Info(models.Model):
     )
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
 
+
 class Delivery(models.Model):
     d_f_name = models.CharField(max_length=100, blank=False, null=False)
     d_l_name = models.CharField(max_length=100, blank=False, null=False)
@@ -50,7 +53,8 @@ class Delivery(models.Model):
     )
     review_text = models.TextField(blank=True, null=True)
     coordinates = models.CharField(max_length=10, blank=False, null=False)
-   # bid = models.ForeignKey(Manager, on_delete=models.CASCADE)
+
+    # bid = models.ForeignKey(Manager, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.d_f_name} {self.d_l_name}: phone number {self.d_phone}'
@@ -78,7 +82,7 @@ class Order(models.Model):
         default=0,
         validators=[MinValueValidator(1)]
     )
-    #restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    # restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     delivery = models.ForeignKey(Delivery, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -107,6 +111,3 @@ class Review(models.Model):
         super().clean()
         if self.rating <= 3 and self.rating is None:
             raise ValidationError('Review required for low rating')
-
-
-
