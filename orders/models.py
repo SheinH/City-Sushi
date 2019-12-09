@@ -78,27 +78,29 @@ class Dish(models.Model):
         return sum(x.rating for x in reviews) / len(reviews)
 
 
+
 class Order(models.Model):
-    dish_name = models.ForeignKey(Dish, on_delete=models.CASCADE)
-    amount = models.IntegerField(
-        default=0,
+    pass
+    # delivery = models.ForeignKey(Delivery, on_delete=models.CASCADE)
+    #
+    # def __str__(self):
+    #     return self.dish_name
+    #
+    # def rating(self):
+    #     reviews = self.review_set.all()
+    #     print(reviews)
+    #     print(len(reviews))
+    #     if not reviews:
+    #         return 0
+    #     else:
+    #         return sum(x.rating for x in reviews) / len(reviews)
+
+class OrderItem(models.Model):
+    dish = models.ForeignKey(Dish)
+    quantity = models.IntegerField(
         validators=[MinValueValidator(1)]
     )
-    # restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-    delivery = models.ForeignKey(Delivery, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.dish_name
-
-    def rating(self):
-        reviews = self.review_set.all()
-        print(reviews)
-        print(len(reviews))
-        if not reviews:
-            return 0
-        else:
-            return sum(x.rating for x in reviews) / len(reviews)
-
+    order = models.ForeignKey(Order)
 
 class Review(models.Model):
     dish = models.ForeignKey(Dish, on_delete=models.CASCADE)

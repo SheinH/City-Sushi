@@ -53,20 +53,20 @@
     <tr>
         <th>First Name</th>
         <th>Last Name</th>
-        <th>Username</th>
-        <th>Password</th>
+        <th>Address</th>
         <th>Email</th>
-        <th>Payment Info</th>
-        <th>Orders</th>
+        <th>Phone</th>
+        <th>BlackListStatus</th>
+
     </tr>
-    {% for p in items %}
-        <td>{{ p.first_name }}</td>
-        <td>{{ p.last_name }}</td>
-        <td>{{ p.username }}</td>
-        <td>{{ p.password }}</td>
-        <td>{{ p.email }}</td>
-        <td>{{ p. }}</td>
-        <td>{{ p. }}</td>
+    {% for visitors in items %}
+        <td>{{ visitor.f_name }}</td>
+        <td>{{ visitor.l_name }}</td>
+        <td>{{ visitor.address }}</td>
+        <td>{{ visitor.email }}</td>
+        <td>{{ visitor.phone }}</td>
+        <td>{{ visitor.blacklisted}}</td>
+
     {% endfor %}
 </table>
 </body>

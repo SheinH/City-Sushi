@@ -1,6 +1,5 @@
-from django.contrib.auth import logout
-from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
 from .forms import CustomerSignUpForm, CustomerForm, ReviewForm
 # Create your views here.
 from django.shortcuts import render
@@ -14,7 +13,7 @@ def index(request):
 
 def menu(request):
     context = {'items': Dish.objects.all()}
-    # print(Dish.objects.all())
+    print(Dish.objects.all())
     return render(request, 'orders/menu.html', context)
 
 
@@ -74,12 +73,16 @@ def customerLogin(request):
 
 
 # view customer profiles based on ids
-def customerProfile(request, pk=None):
-    if pk:
-        user = Customer.objects.get(pk=pk)
-    else:
-        user = request.user
-    return render(request, 'orders/profile.html', {'user': user})
+# turn user into customer
+# build context dictionary { 'visitor' : visitor }
+# return render( request, 'orders/profile.html', context)
+
+def customerProfile(request):
+    #user: User = request.user
+
+    context = {'visitor': Visitor.objects.all()}
+    #context = {'visitor': user}
+    return render(request, 'orders/profile.html', context)
 
 
 # create the customer profiles
