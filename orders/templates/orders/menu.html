@@ -45,19 +45,24 @@
     }
 </style>
 <h1>MENU</h1>
-<table class="menu">
-    <tr>
-        <th>Dish Name</th>
-        <th>Description</th>
-        <th>Reviews</th>
-        <th>Quantity</th>
-    </tr>
-    {% for d in items %}
-    <td>{{ d.name }}</td>
-    <td>{{ d.description }}</td>
-    <td>{{ d.rating }}</td>
-    <td><input type="number" min="0" name="{{ d.pk }}"/></td>
-    {% endfor %}
-</table>
-<input type="submit" value="Checkout"/>
+<form action="{% url 'orders:orderplaced' %}" method="post">
+    {% csrf_token %}
+    <table class="menu">
+        <tr>
+            <th>Dish Name</th>
+            <th>Description</th>
+            <th>Reviews</th>
+            <th>Quantity</th>
+        </tr>
+        {% for d in items %}
+        <tr>
+            <td>{{ d.name }}</td>
+            <td>{{ d.description }}</td>
+            <td>{{ d.rating }}</td>
+            <td><input type="number" min="0" name="{{ d.pk }}"/></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <input type="submit" value="Checkout"/>
+</form>
 {% endblock %}

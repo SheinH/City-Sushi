@@ -73,6 +73,8 @@ class Dish(models.Model):
 
     def rating(self):
         reviews = self.review_set.all()
+        if not reviews:
+            return 0
         return sum(x.rating for x in reviews) / len(reviews)
 
 
@@ -90,7 +92,12 @@ class Order(models.Model):
 
     def rating(self):
         reviews = self.review_set.all()
-        return sum(x.rating for x in reviews) / len(reviews)
+        print(reviews)
+        print(len(reviews))
+        if not reviews:
+            return 0
+        else:
+            return sum(x.rating for x in reviews) / len(reviews)
 
 
 class Review(models.Model):

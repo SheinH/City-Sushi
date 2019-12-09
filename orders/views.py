@@ -1,5 +1,6 @@
+from django.contrib.auth import logout
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
 from .forms import CustomerSignUpForm, CustomerForm, ReviewForm
 # Create your views here.
 from django.shortcuts import render
@@ -13,16 +14,23 @@ def index(request):
 
 def menu(request):
     context = {'items': Dish.objects.all()}
-    print(Dish.objects.all())
+    # print(Dish.objects.all())
     return render(request, 'orders/menu.html', context)
 
 
 def orderPlaced(request):
-    return render(request, 'orders/orderPlaced.html', {})
+    print(dict(request.POST))
+
+    def get_dish(id):
+        return Dish.objects.get(pk=id)
+
+    orders = {get_dish(k): int(v[0]) for k, v in request.POST.items() if k != 'csrfmiddlewaretoken'}
+    context = {'orders' : orders}
+    return render(request, 'orders/orderplaced.html', context)
 
 
 # logout for both users (restaurants and regular customers)
-def Logout(request):
+def logout(request):
     logout(request)
     return redirect("login")
 
