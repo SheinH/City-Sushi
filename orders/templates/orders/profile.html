@@ -59,15 +59,14 @@
         <th>BlackListStatus</th>
 
     </tr>
-    {% for visitors in items %}
-        <td>{{ visitor.f_name }}</td>
-        <td>{{ visitor.l_name }}</td>
-        <td>{{ visitor.address }}</td>
-        <td>{{ visitor.email }}</td>
-        <td>{{ visitor.phone }}</td>
-        <td>{{ visitor.blacklisted}}</td>
-
-    {% endfor %}
+    <tr>
+        <td>{{ v.f_name }}</td>
+        <td>{{ v.l_name }}</td>
+        <td>{{ v.address }}</td>
+        <td>{{ v.email }}</td>
+        <td>{{ v.phone }}</td>
+        <td>{{ v.blacklisted}}</td>
+    </tr>
 </table>
 </body>
 </html>

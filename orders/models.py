@@ -10,7 +10,7 @@ class Visitor(models.Model):
     l_name = models.CharField(max_length=100, blank=False, null=False)
     address = models.CharField(max_length=200, blank=False, null=False)
     email = models.CharField(max_length=50, blank=False, null=False)
-    phone = models.CharField(max_length=10, blank=False, null=False)
+    phone = models.CharField(max_length=10, default=0, blank=False, null=False)
     blacklisted = models.BooleanField(default=False)
 
     def getFullName(self):
@@ -96,11 +96,11 @@ class Order(models.Model):
     #         return sum(x.rating for x in reviews) / len(reviews)
 
 class OrderItem(models.Model):
-    dish = models.ForeignKey(Dish)
+    dish = models.ForeignKey(Dish, on_delete=models.DO_NOTHING)
     quantity = models.IntegerField(
         validators=[MinValueValidator(1)]
     )
-    order = models.ForeignKey(Order)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
 
 class Review(models.Model):
     dish = models.ForeignKey(Dish, on_delete=models.CASCADE)

@@ -24,7 +24,7 @@ def orderPlaced(request):
         return Dish.objects.get(pk=id)
 
     orders = {get_dish(k): int(v[0]) for k, v in request.POST.items() if k != 'csrfmiddlewaretoken'}
-    context = {'orders' : orders}
+    context = {'orders': orders}
     return render(request, 'orders/orderplaced.html', context)
 
 
@@ -78,10 +78,11 @@ def customerLogin(request):
 # return render( request, 'orders/profile.html', context)
 
 def customerProfile(request):
-    #user: User = request.user
-
-    context = {'visitor': Visitor.objects.all()}
-    #context = {'visitor': user}
+    user = request.user
+    customer = Customer.objects.get(user=user)
+    context = {'v': customer}
+    print(context)
+    # context = {'visitor': user}
     return render(request, 'orders/profile.html', context)
 
 
