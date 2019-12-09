@@ -3,7 +3,7 @@ from django.urls import path
 from . import views
 
 # Will update this later on.
-# urlpatterns = [
+urlpatterns = [
 #     path('', views.index, name='index'),
 #     path('menu', views.menu, name='menu'),
 #     path('orderplaced/', views.orderplaced),
@@ -17,4 +17,4 @@ from . import views
 #     path('restaurant/menu/', views.editMenu, name='editmenu'),
 #     path('logout/', views.Logout, name='logout'),
 #     path('checkout/', views.checkout, name='checkout')
-# ]
+]

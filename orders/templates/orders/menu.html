@@ -1,53 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-            Helvetica, Arial, sans-serif,
-            "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-            margin: 40px auto;
-            max-width: 800px;
-            padding: 0 10px;
-            font-size: 16px;
-            line-height: 1.5;
-            word-wrap: break-word;
-        }
+{% extends 'base.html' %}
+{% block title %}Menu{% endblock %}
+{% block content %}
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Helvetica, Arial, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        margin: 40px auto;
+        max-width: 800px;
+        padding: 0 10px;
+        font-size: 16px;
+        line-height: 1.5;
+        word-wrap: break-word;
+    }
 
-        h1, h2, h3 {
-            line-height: 1.2
-        }
+    h1, h2, h3 {
+        line-height: 1.2
+    }
 
-        .menu {
-            background-color: #f8f9fa;
-            color: #222;
-            margin: 1em 0;
-            border: 1px solid #a2a9b1;
-            border-collapse: collapse
-        }
+    .menu {
+        background-color: #f8f9fa;
+        color: #222;
+        margin: 1em 0;
+        border: 1px solid #a2a9b1;
+        border-collapse: collapse
+    }
 
-        .menu > tr > th,
-        .menu > tr > td,
-        .menu > * > tr > th,
-        .menu > * > tr > td {
-            border: 1px solid #a2a9b1;
-            padding: 0.2em 0.4em
-        }
+    .menu > tr > th,
+    .menu > tr > td,
+    .menu > * > tr > th,
+    .menu > * > tr > td {
+        border: 1px solid #a2a9b1;
+        padding: 0.2em 0.4em
+    }
 
-        .menu > tr > th,
-        .menu > * > tr > th {
-            background-color: #eaecf0;
-            text-align: center
-        }
+    .menu > tr > th,
+    .menu > * > tr > th {
+        background-color: #eaecf0;
+        text-align: center
+    }
 
-        .menu > caption {
-            font-weight: bold
-        }
-    </style>
-</head>
-<body>
+    .menu > caption {
+        font-weight: bold
+    }
+</style>
 <h1>MENU</h1>
 <table class="menu">
     <tr>
@@ -57,12 +53,11 @@
         <th>Quantity</th>
     </tr>
     {% for d in items %}
-        <td>{{ d.name }}</td>
-        <td>{{ d.description }}</td>
-        <td>{{ d.rating }}</td>
-        <td><input type="number" min="0" name="{{ d.pk }}"/></td>
+    <td>{{ d.name }}</td>
+    <td>{{ d.description }}</td>
+    <td>{{ d.rating }}</td>
+    <td><input type="number" min="0" name="{{ d.pk }}"/></td>
     {% endfor %}
 </table>
 <input type="submit" value="Checkout"/>
-</body>
-</html>
+{% endblock %}
