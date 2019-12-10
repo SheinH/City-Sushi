@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import CustomerSignUpForm, CustomerForm, ReviewForm
 # Create your views here.
 from django.shortcuts import render
-from .models import Visitor, Customer, Payment_Info, Dish, Review
+from .models import Visitor, Customer, Payment_Info, Dish, Review, Order, OrderItem, Inventory, ShippingAddress, Sales
 
 
 # Homepage
@@ -23,7 +23,15 @@ def orderPlaced(request):
     def get_dish(id):
         return Dish.objects.get(pk=id)
 
+    customer = Customer.objects.get(user=request.user)
+
     orders = {get_dish(k): int(v[0]) for k, v in request.POST.items() if k != 'csrfmiddlewaretoken'}
+
+    ord = Order(vis=customer)
+    ord.save()
+    for k,v in orders.items():
+        ord_item = OrderItem(dish = k,quantity=v,order=ord)
+        ord_item.save()
     context = {'orders': orders}
     return render(request, 'orders/orderplaced.html', context)
 
