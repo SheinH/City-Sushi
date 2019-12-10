@@ -1,10 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
+# Create your views here.
+from django.shortcuts import render
 
 from .forms import CustomerSignUpForm, CustomerForm, PaymentForm
-# Create your views here.
-from .models import Customer, PaymentInfo, Dish
+from .models import Customer, Dish, Order, OrderItem
 
 
 # Homepage
@@ -24,7 +25,15 @@ def orderPlaced(request):
     def get_dish(id):
         return Dish.objects.get(pk=id)
 
+    customer = Customer.objects.get(user=request.user)
+
     orders = {get_dish(k): int(v[0]) for k, v in request.POST.items() if k != 'csrfmiddlewaretoken'}
+
+    ord = Order(vis=customer)
+    ord.save()
+    for k, v in orders.items():
+        ord_item = OrderItem(dish=k, quantity=v, order=ord)
+        ord_item.save()
     context = {'orders': orders}
     return render(request, 'orders/orderplaced.html', context)
 
@@ -130,4 +139,3 @@ def updateCustomer(request):
     return render(request, 'orders/profile_form.html', context={'form': form, 'title': "Update Profile"})
 
 # need to finish checkout function
-# def checkout(request):
