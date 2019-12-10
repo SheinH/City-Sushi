@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 
-from .forms import CustomerSignUpForm, CustomerForm
+from .forms import CustomerSignUpForm, CustomerForm, PaymentForm
 # Create your views here.
 from .models import Customer, PaymentInfo, Dish
 
@@ -55,6 +55,19 @@ def logout(request):
 #     return render(request, 'orders/signup.html', context={'form': form})
 
 # Better registration form
+def add_payment_form(request):
+    customer = Customer.objects.get(user=request.user)
+    if request.method == 'POST':
+        f = PaymentForm(request.POST)
+        f.customer = customer
+        if f.is_valid():
+            f.save()
+            messages.success(request, 'Saved payment info')
+            return render(request, 'orders/profile.html', {'form': f})
+    else:
+        f = CustomerSignUpForm()
+    return render(request, 'orders/register.html', {'form': f})
+
 def customerRegister(request):
     if request.method == 'POST':
         f = CustomerSignUpForm(request.POST)

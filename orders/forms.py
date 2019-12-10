@@ -45,7 +45,8 @@ class CustomerSignUpForm(forms.Form):
 class PaymentForm(forms.ModelForm):
     class Meta:
         model = PaymentInfo
-        fields = ['pub_date', 'headline', 'content', 'reporter']
+        fields = ['name','card_num','exp_month','exp_year','cvv']
+
 
 class VisitorForm(forms.ModelForm):
     class Meta:
