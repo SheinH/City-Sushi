@@ -6,16 +6,17 @@ from django.db import models
 
 
 class ShippingAddress(models.Model):
-
     address1 = models.CharField("Address line 1", max_length=1024)
     address2 = models.CharField("Address line 2", max_length=1024)
     zip_code = models.CharField("ZIP / Postal code", max_length=12)
     city = models.CharField("City", max_length=1024)
 
+
 class Visitor(models.Model):
     f_name = models.CharField(max_length=100, blank=False, null=False)
     l_name = models.CharField(max_length=100, blank=False, null=False)
-    address = models.ForeignKey(ShippingAddress, on_delete=models.DO_NOTHING)
+    address = models.CharField(max_length=100, blank=False, null=False)
+    shipping = models.ForeignKey(ShippingAddress, on_delete=models.DO_NOTHING)
     email = models.CharField(max_length=50, blank=False, null=False)
     phone = models.CharField(max_length=10, default=0, blank=False, null=False)
     blacklisted = models.BooleanField(default=False)
@@ -26,7 +27,6 @@ class Visitor(models.Model):
 
 class Customer(Visitor):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
 
     # TODO: Add ___str__() method
     # TODO: Investigate whether or not Customer can inherit from User instead of Model
@@ -75,7 +75,8 @@ class Delivery(models.Model):
 class Dish(models.Model):
     name = models.CharField(max_length=60)
     description = models.TextField()
-    price = models.IntegerField(default = 100)
+    price = models.IntegerField(default=100)
+
     def __str__(self):
         return self.name
 
@@ -86,14 +87,12 @@ class Dish(models.Model):
         return sum(x.rating for x in reviews) / len(reviews)
 
 
-
-
-
 class Order(models.Model):
     vis = models.ForeignKey(Visitor, on_delete=models.DO_NOTHING)
+
     def items(self):
         order_item = OrderItem.objects.filter(dish=self)
-        return {x.dish : x.quantity for x in order_item}
+        return {x.dish: x.quantity for x in order_item}
 
     def price(self):
         items = self.items()
@@ -103,13 +102,13 @@ class Order(models.Model):
         return price
 
 
-
 class OrderItem(models.Model):
     dish = models.ForeignKey(Dish, on_delete=models.DO_NOTHING)
     quantity = models.IntegerField(
         validators=[MinValueValidator(1)]
     )
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
+
 
 class Review(models.Model):
     dish = models.ForeignKey(Dish, on_delete=models.CASCADE)
@@ -131,8 +130,7 @@ class Review(models.Model):
             raise ValidationError('Review required for low rating')
 
 
-
-#manader side
+# manader side
 
 
 class Restaurant(models.Model):
@@ -154,25 +152,26 @@ class Manager(models.Model):
         return self.r_name
 
 
-class Delivery(models.Model):
-    d_f_name = models.CharField(max_length=100, blank=False, null=False)
-    d_l_name = models.CharField(max_length=100, blank=False, null=False)
-    d_phone = models.CharField(max_length=20, blank=False, null=False)
-    rating = models.IntegerField(
-        default=5,
-        validators=[MaxValueValidator(5), MinValueValidator(1)]
-    )
-    review_text = models.TextField(blank=True, null=True)
-    coordinates = models.CharField(max_length=10, blank=False, null=False)
-    bid = models.ForeignKey(Manager, on_delete=models.DO_NOTHING)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f'{self.d_f_name} {self.d_l_name}: phone number {self.d_phone}'
-
-    def rating(self):
-        reviews = self.review_set.all()
-        return sum(x.rating for x in reviews) / len(reviews)
+#
+# class Delivery(models.Model):
+#     d_f_name = models.CharField(max_length=100, blank=False, null=False)
+#     d_l_name = models.CharField(max_length=100, blank=False, null=False)
+#     d_phone = models.CharField(max_length=20, blank=False, null=False)
+#     rating = models.IntegerField(
+#         default=5,
+#         validators=[MaxValueValidator(5), MinValueValidator(1)]
+#     )
+#     review_text = models.TextField(blank=True, null=True)
+#     coordinates = models.CharField(max_length=10, blank=False, null=False)
+#     bid = models.ForeignKey(Manager, on_delete=models.DO_NOTHING)
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#
+#     def __str__(self):
+#         return f'{self.d_f_name} {self.d_l_name}: phone number {self.d_phone}'
+#
+#     def rating(self):
+#         reviews = self.review_set.all()
+#         return sum(x.rating for x in reviews) / len(reviews)
 
 
 class Sales(models.Model):
