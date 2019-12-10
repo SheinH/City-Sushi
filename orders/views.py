@@ -1,12 +1,10 @@
-from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
 from django.contrib import messages
-from django.urls import reverse
-from .forms import CustomerSignUpForm, CustomerForm, ReviewForm
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect
+
+from .forms import CustomerSignUpForm, CustomerForm
 # Create your views here.
-from .models import Visitor, Customer, Payment_Info, Dish, Review
+from .models import Customer, PaymentInfo, Dish
 
 
 # Homepage
@@ -95,7 +93,7 @@ def customerLogin(request):
 def customerProfile(request):
     user = request.user
     customer = Customer.objects.get(user=user)
-    info = Payment_Info.objects.filter(customer=customer)
+    info = PaymentInfo.objects.filter(customer=customer)
     context = {'v': customer, 'i': info}
     print(context)
     # context = {'visitor': user}

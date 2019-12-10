@@ -1,12 +1,8 @@
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib import messages
-from django.http import request
-from django.shortcuts import render, redirect
 from django import forms
-from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
-from .models import Visitor, Customer, Review
+from .models import Visitor, Customer, Review, PaymentInfo
 
 
 class CustomerSignUpForm(forms.Form):
@@ -45,6 +41,11 @@ class CustomerSignUpForm(forms.Form):
         )
         return user
 
+
+class PaymentForm(forms.ModelForm):
+    class Meta:
+        model = PaymentInfo
+        fields = ['pub_date', 'headline', 'content', 'reporter']
 
 class VisitorForm(forms.ModelForm):
     class Meta:

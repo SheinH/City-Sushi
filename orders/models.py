@@ -27,7 +27,7 @@ class Customer(Visitor):
         return self.user.username
 
 
-class Payment_Info(models.Model):
+class PaymentInfo(models.Model):
     name = models.CharField(max_length=200, blank=False)
     card_num = models.IntegerField(default=0)
     exp_month = models.IntegerField(

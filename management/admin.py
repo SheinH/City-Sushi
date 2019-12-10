@@ -1,7 +1,7 @@
 # Register your models here.
 from django.contrib import admin
 
-from orders.models import Payment_Info
+from orders.models import PaymentInfo
 from .models import *
 
 admin.site.register(Restaurant)
@@ -10,4 +10,4 @@ admin.site.register(Sales)
 admin.site.register(Cook)
 admin.site.register(Delivery)
 admin.site.register(Inventory)
-admin.site.register(Payment_Info)
+admin.site.register(PaymentInfo)
