@@ -11,12 +11,14 @@ class ShippingAddress(models.Model):
     zip_code = models.CharField("ZIP / Postal code", max_length=12)
     city = models.CharField("City", max_length=1024)
 
+    def __str__(self):
+        return '\n'.join([self.address1,self.address1,self.zip_code,self.city])
+
 
 class Visitor(models.Model):
     f_name = models.CharField(max_length=100, blank=False, null=False)
     l_name = models.CharField(max_length=100, blank=False, null=False)
-    address = models.CharField(max_length=100, blank=False, null=False)
-    shipping = models.ForeignKey(ShippingAddress, on_delete=models.DO_NOTHING)
+    shipping = models.ForeignKey(ShippingAddress, null=True, on_delete=models.DO_NOTHING)
     email = models.CharField(max_length=50, blank=False, null=False)
     phone = models.CharField(max_length=10, default=0, blank=False, null=False)
     blacklisted = models.BooleanField(default=False)

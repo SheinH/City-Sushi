@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 
 from .forms import CustomerSignUpForm, CustomerForm, PaymentForm
-from .models import Customer, Dish, Order, OrderItem
+from .models import Customer, Dish, Order, OrderItem, PaymentInfo
 
 
 # Homepage
