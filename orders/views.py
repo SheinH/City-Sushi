@@ -80,7 +80,8 @@ def customerLogin(request):
 def customerProfile(request):
     user = request.user
     customer = Customer.objects.get(user=user)
-    context = {'v': customer}
+    info = Payment_Info.objects.filter(customer=customer)
+    context = {'v': customer, 'i': info}
     print(context)
     # context = {'visitor': user}
     return render(request, 'orders/profile.html', context)

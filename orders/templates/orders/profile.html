@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -46,8 +44,6 @@
             font-weight: bold
         }
     </style>
-</head>
-<body>
 <h1>PROFILE</h1>
 <table class="profile">
     <tr>
@@ -57,7 +53,6 @@
         <th>Email</th>
         <th>Phone</th>
         <th>BlackListStatus</th>
-
     </tr>
     <tr>
         <td>{{ v.f_name }}</td>
@@ -68,5 +63,23 @@
         <td>{{ v.blacklisted}}</td>
     </tr>
 </table>
-</body>
-</html>
+<h1>PAYMENT INFO</h1>
+<table class="profile">
+    <tr>
+        <th>Card Name</th>
+        <th>Card Number</th>
+        <th>Exp. Month</th>
+        <th>Exp. Year</th>
+        <th>CVV</th>
+    </tr>
+    {% for i in i %}
+        <tr>
+            <td>{{ i.name }}</td>
+            <td>{{ i.card_num }}</td>
+            <td>{{ i.exp_month }}</td>
+            <td>{{ i.exp_year }}</td>
+            <td>{{ i.cvv }}</td>
+        </tr>
+        {% endfor %}
+</table>
+{% endblock %}
