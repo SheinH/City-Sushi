@@ -29,11 +29,12 @@ class CustomerSignUpForm(forms.Form):
             raise ValidationError("Email already exists")
         return email
 
-    def clean_password(self):
+    def clean_password_confirm(self):
         password = self.cleaned_data.get('password')
         password_confirm = self.cleaned_data.get('password_confirm')
         if password and password_confirm and password != password_confirm:
             raise ValidationError("Passwords don't match")
+
         return password_confirm
 
     def save(self, commit=True):
