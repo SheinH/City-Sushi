@@ -87,7 +87,6 @@ class Dish(models.Model):
         return sum(x.rating for x in reviews) / len(reviews)
 
 
-
 class Order(models.Model):
     vis = models.ForeignKey(Visitor, on_delete=models.DO_NOTHING)
 
@@ -129,9 +128,6 @@ class Review(models.Model):
         super().clean()
         if self.rating <= 3 and self.rating is None:
             raise ValidationError('Review required for low rating')
-
-
-# manader side
 
 
 class Restaurant(models.Model):

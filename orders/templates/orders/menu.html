@@ -52,6 +52,7 @@
             <th>Dish Name</th>
             <th>Description</th>
             <th>Reviews</th>
+            <th>Price</th>
             <th>Quantity</th>
         </tr>
         {% for d in items %}
@@ -59,7 +60,7 @@
             <td>{{ d.name }}</td>
             <td>{{ d.description }}</td>
             <td>{{ d.rating }}</td>
-            <td><input type="number" min="0" name="{{ d.pk }}"/></td>
+            <td><input type="number" value="0" min="0" max="100" name="{{ d.pk }}"/></td>
         </tr>
         {% endfor %}
     </table>

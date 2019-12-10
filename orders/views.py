@@ -77,6 +77,7 @@ def add_payment_form(request):
         f = CustomerSignUpForm()
     return render(request, 'orders/register.html', {'form': f})
 
+
 def customerRegister(request):
     if request.method == 'POST':
         f = CustomerSignUpForm(request.POST)
