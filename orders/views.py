@@ -1,8 +1,10 @@
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+from django.urls import reverse
 from .forms import CustomerSignUpForm, CustomerForm, ReviewForm
 # Create your views here.
-from django.shortcuts import render
 from .models import Visitor, Customer, Payment_Info, Dish, Review
 
 
@@ -37,21 +39,33 @@ def logout(request):
 # Customer side of things
 
 # Register customer account
+# def customerRegister(request):
+#     form = CustomerSignUpForm(request.POST or None)
+#     if form.is_valid():
+#         user = form.save(commit=False)
+#         username = form.cleaned_data['username']
+#         password = form.cleaned_data['password']
+#         user.is_customer = True
+#         user.set_password(password)
+#         user.save()
+#         user = authenticate(username=username, password=password)
+#         if user is not None:
+#             if user.is_active:
+#                 login(request, user)
+#                 return redirect("ccreate")
+#     return render(request, 'orders/signup.html', context={'form': form})
+
+# Better registration form
 def customerRegister(request):
-    form = CustomerSignUpForm(request.POST or None)
-    if form.is_valid():
-        user = form.save(commit=False)
-        username = form.cleaned_data['username']
-        password = form.cleaned_data['password']
-        user.is_customer = True
-        user.set_password(password)
-        user.save()
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                return redirect("ccreate")
-    return render(request, 'orders/signup.html', context={'form': form})
+    if request.method == 'POST':
+        f = CustomerSignUpForm(request.POST)
+        if f.is_valid():
+            f.save()
+            messages.success(request, 'Account created successfully')
+            return render(request, 'orders/register.html', {'form': f})
+    else:
+        f = CustomerSignUpForm()
+    return render(request, 'orders/register.html', {'form': f})
 
 
 # Let customers log in
@@ -104,3 +118,4 @@ def updateCustomer(request):
     return render(request, 'orders/profile_form.html', context={'form': form, 'title': "Update Profile"})
 
 # need to finish checkout function
+# def checkout(request):
