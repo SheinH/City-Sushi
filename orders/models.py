@@ -30,6 +30,7 @@ class Visitor(models.Model):
 
 class Customer(Visitor):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    vip = models.BooleanField(default=Falseta )
 
     # TODO: Add ___str__() method
     # TODO: Investigate whether or not Customer can inherit from User instead of Model
@@ -131,26 +132,10 @@ class Manager(models.Model):
         return self.r_name
 
 
-#
-# class Delivery(models.Model):
-#     d_f_name = models.CharField(max_length=100, blank=False, null=False)
-#     d_l_name = models.CharField(max_length=100, blank=False, null=False)
-#     d_phone = models.CharField(max_length=20, blank=False, null=False)
-#     rating = models.IntegerField(
-#         default=5,
-#         validators=[MaxValueValidator(5), MinValueValidator(1)]
-#     )
-#     review_text = models.TextField(blank=True, null=True)
-#     coordinates = models.CharField(max_length=10, blank=False, null=False)
-#     bid = models.ForeignKey(Manager, on_delete=models.DO_NOTHING)
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#
-#     def __str__(self):
-#         return f'{self.d_f_name} {self.d_l_name}: phone number {self.d_phone}'
-#
-#     def rating(self):
-#         reviews = self.review_set.all()
-#         return sum(x.rating for x in reviews) / len(reviews)
+class Deliverer(models.Model):
+    f_name = models.CharField(max_length=100, blank=False, null=False)
+    l_name = models.CharField(max_length=100, blank=False, null=False)
+    phone = models.CharField(max_length=10, default=0, blank=False, null=False)
 
 
 class Sales(models.Model):
