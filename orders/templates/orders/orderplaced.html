@@ -5,3 +5,6 @@
     <p>You ordered {{value}} of {{key.name}}</p>
     {% endfor %}
 {% endblock %}
+{% block navbar %}
+<a href="{% url 'orders:profile' %}"></a>
+{% endblock %}

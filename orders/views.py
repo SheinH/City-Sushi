@@ -1,3 +1,5 @@
+import urllib
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -7,7 +9,7 @@ from django.shortcuts import render
 
 from .forms import CustomerSignUpForm, CustomerForm, PaymentForm, CustomerRegistrationForm
 from .models import Customer, Dish, Order, OrderItem, PaymentInfo
-
+from .models import Restaurant
 
 # Homepage
 def index(request):
@@ -19,6 +21,11 @@ def menu(request):
     print(Dish.objects.all())
     return render(request, 'orders/menu.html', context)
 
+
+def main(request):
+    context = {'r': Restaurant.objects.all()}
+    print(Restaurant.objects.all())
+    return render(request, 'orders/main.html', context)
 
 def orderPlaced(request):
     print(dict(request.POST))
@@ -69,13 +76,14 @@ def add_payment_form(request):
     customer = Customer.objects.get(user=request.user)
     if request.method == 'POST':
         f = PaymentForm(request.POST)
-        f.customer = customer
         if f.is_valid():
-            f.save()
+            a = f.save(commit=False)
+            a.customer = customer
+            a.save()
             messages.success(request, 'Saved payment info')
-            return render(request, 'orders/profile.html', {'form': f})
+            return redirect('orders:profile')
     else:
-        f = CustomerSignUpForm()
+        f = PaymentForm()
     return render(request, 'orders/register.html', {'form': f})
 
 
@@ -138,8 +146,9 @@ def customerLogin(request):
 def customerProfile(request):
     user = request.user
     customer = Customer.objects.get(user=user)
+    addr = urllib.parse.quote(str(customer.shipping))
     info = PaymentInfo.objects.filter(customer=customer)
-    context = {'v': customer, 'i': info}
+    context = {'v': customer, 'i': info, 'location' : addr}
     print(context)
     # context = {'visitor': user}
     return render(request, 'orders/profile.html', context)

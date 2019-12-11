@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% block title %}Menu{% endblock %}
+{% block navbar %}
+<a href="{% url 'orders:profile' %}">Profile</a>
+{% endblock %}
 {% block content %}
 <style>
     body {

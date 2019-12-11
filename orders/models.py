@@ -7,12 +7,11 @@ from django.db import models
 
 class ShippingAddress(models.Model):
     address1 = models.CharField("Address line 1", max_length=1024)
-    address2 = models.CharField("Address line 2", max_length=1024)
     zip_code = models.CharField("ZIP / Postal code", max_length=12)
     city = models.CharField("City", max_length=1024)
 
     def __str__(self):
-        return '\n'.join([self.address1,self.address1,self.zip_code,self.city])
+        return '\n'.join([self.address1,self.zip_code,self.city])
 
 
 class Visitor(models.Model):
