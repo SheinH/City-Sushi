@@ -1,10 +1,8 @@
 {% extends "orders/order_base.html" %}
 {% block title %}Order Placed{% endblock %}
 {% block content %}
+<a href="{% url 'orders:profile' %}"></a>
     {% for key, value in orders.items %}
     <p>You ordered {{value}} of {{key.name}}</p>
     {% endfor %}
-{% endblock %}
-{% block navbar %}
-<a href="{% url 'orders:profile' %}"></a>
 {% endblock %}
