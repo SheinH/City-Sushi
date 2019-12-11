@@ -1,10 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.shortcuts import redirect
 # Create your views here.
 from django.shortcuts import render
 
-from .forms import CustomerSignUpForm, CustomerForm, PaymentForm
+from .forms import CustomerSignUpForm, CustomerForm, PaymentForm, CustomerRegistrationForm
 from .models import Customer, Dish, Order, OrderItem, PaymentInfo
 
 
@@ -88,6 +89,27 @@ def customerRegister(request):
     else:
         f = CustomerSignUpForm()
     return render(request, 'orders/register.html', {'form': f})
+
+
+def realCustomerRegister(request):
+    if request.method == 'POST':
+        f = CustomerRegistrationForm(request.POST)
+        if f.is_valid():
+            a = f.save(commit=False)
+            b = User.objects.create_user(
+                username=f.cleaned_data['username'],
+                password=f.cleaned_data['password'],
+                email=a.email
+            )
+
+            b.save()
+            a.user = b
+            a.save()
+            messages.success(request, 'Account created successfully')
+            return render(request, 'orders/cregister.html', {'form': f})
+    else:
+        f = CustomerRegistrationForm()
+    return render(request, 'orders/cregister.html', {'form': f})
 
 
 # Let customers log in

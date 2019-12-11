@@ -6,7 +6,7 @@ from .models import Visitor, Customer, Review, PaymentInfo
 
 
 class CustomerSignUpForm(forms.Form):
-    username = forms.CharField(label='Username', min_length=5, max_length=50)
+    username = forms.CharField(label='Username', min_length=5, max_length=20)
     email = forms.EmailField(label='Email')
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
     password_confirm = forms.CharField(label='Re-enter password', widget=forms.PasswordInput)
@@ -42,10 +42,36 @@ class CustomerSignUpForm(forms.Form):
         return user
 
 
+class CustomerRegistrationForm(forms.ModelForm):
+    username = forms.CharField(label='Username', min_length=5, max_length=20)
+    shipping = forms.CharField(label="Shipping Address", max_length=200)
+    password = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password_confirm = forms.CharField(label='Re-enter password', widget=forms.PasswordInput)
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        r = User.objects.filter(username=username)
+        if r:
+            raise ValidationError("Username already exists")
+        return username
+
+    def clean_password_confirm(self):
+        password = self.cleaned_data.get('password')
+        password_confirm = self.cleaned_data.get('password_confirm')
+        if password and password_confirm and password != password_confirm:
+            raise ValidationError("Passwords don't match")
+
+        return password_confirm
+
+    class Meta:
+        model = Customer
+        fields = ['f_name', 'l_name', 'email', 'phone']
+
+
 class PaymentForm(forms.ModelForm):
     class Meta:
         model = PaymentInfo
-        fields = ['name','card_num','exp_month','exp_year','cvv']
+        fields = ['name', 'card_num', 'exp_month', 'exp_year', 'cvv']
 
 
 class VisitorForm(forms.ModelForm):
