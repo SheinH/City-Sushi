@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Pending Orders{% endblock %}
+
+{% block content %}
+
+<table class="menu profile">
+    <tr>
+        <th>Item</th>
+        <th>Quantity</th>
+        <th>Mark as ready</th>
+    </tr>
+    {% for x in items %}
+    <tr>
+        <td>{{x.name}}</td>
+        <td>{{x.quanity}}</td>
+        <td><input type="button"></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
