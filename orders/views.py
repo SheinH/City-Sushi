@@ -84,7 +84,7 @@ def add_payment_form(request):
             return redirect('orders:profile')
     else:
         f = PaymentForm()
-    return render(request, 'orders/register.html', {'form': f})
+    return render(request, 'orders/addpayment.html', {'form': f})
 
 
 def customerRegister(request):
