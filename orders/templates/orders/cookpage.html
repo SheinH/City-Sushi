@@ -3,7 +3,11 @@
 {% block title %}Pending Orders{% endblock %}
 
 {% block content %}
-
+{% for x in messages %}
+<p>{{x}}</p>
+{% endfor %}
+<form method="post">
+    {% csrf_token %}
 <table class="menu profile">
     <tr>
         <th>Item</th>
@@ -12,10 +16,11 @@
     </tr>
     {% for x in items %}
     <tr>
-        <td>{{x.name}}</td>
-        <td>{{x.quanity}}</td>
-        <td><input type="button"></td>
+        <td>{{x.dish.name}}</td>
+        <td>{{x.quantity}}</td>
+        <td><input type="submit" name="{{x.pk}}" value="Cook"></td>
     </tr>
     {% endfor %}
 </table>
+</form>
 {% endblock %}

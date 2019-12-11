@@ -71,8 +71,17 @@ def logout(request):
     return redirect("login")
 
 def cookView(request):
-    items = OrderItem.objects.filter(is_cooked=True)
-    return render(request,'orders/cookpage.html',{'items' : items})
+    items = OrderItem.objects.filter(is_cooked=False)
+    d = {'items': items, 'messages': []}
+    if request.method == 'POST':
+        print(dict(request.POST))
+        for x in request.POST:
+            if x != 'csrfmiddlewaretoken':
+                item = OrderItem.objects.get(pk=int(x))
+                item.is_cooked = True
+                item.save()
+        d['messages'].append(f'{item.quantity} {item.dish} are cooked!')
+    return render(request,'orders/cookpage.html',d)
 # Customer side of things
 
 # Register customer account
