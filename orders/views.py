@@ -1,3 +1,5 @@
+import urllib
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
@@ -116,8 +118,9 @@ def customerLogin(request):
 def customerProfile(request):
     user = request.user
     customer = Customer.objects.get(user=user)
+    addr = urllib.parse.quote(str(customer.shipping))
     info = PaymentInfo.objects.filter(customer=customer)
-    context = {'v': customer, 'i': info}
+    context = {'v': customer, 'i': info, 'location' : addr}
     print(context)
     # context = {'visitor': user}
     return render(request, 'orders/profile.html', context)
