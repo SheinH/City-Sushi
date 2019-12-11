@@ -180,9 +180,9 @@ def customerProfile(request):
     customer = Customer.objects.get(user=user)
     addr = urllib.parse.quote(str(customer.address))
     info = PaymentInfo.objects.filter(customer=customer)
-    context = {'v': customer, 'i': info, 'location': addr}
+    # context = {'v': customer, 'i': info, 'location': addr}
     orders = Order.objects.filter(vis=customer)
-    context = {'orders': orders}
+    context = {'v': customer, 'i': info, 'location': addr, 'orders': orders}
     print(context)
     # context = {'visitor': user}
     return render(request, 'orders/profile.html', context)
