@@ -91,4 +91,4 @@ class CustomerForm(forms.ModelForm):
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields = ['dish', 'reviewer', 'rating', 'review_text']
+        fields = ['rating', 'review_text']

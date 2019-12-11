@@ -7,9 +7,11 @@ from django.shortcuts import redirect
 # Create your views here.
 from django.shortcuts import render
 
-from .forms import CustomerSignUpForm, CustomerForm, PaymentForm, CustomerRegistrationForm
-from .models import Customer, Dish, Order, OrderItem, PaymentInfo, ShippingAddress
+from .forms import *
+from .models import Customer, Dish, Order, OrderItem, PaymentInfo, Address, Review
 from .models import Restaurant
+from django.forms.models import model_to_dict
+
 
 # Homepage
 def index(request):
@@ -27,6 +29,22 @@ def main(request):
     print(Restaurant.objects.all())
     return render(request, 'orders/main.html', context)
 
+def review(request, id):
+    if request.method == 'POST':
+        f = ReviewForm(request.POST)
+        if f.is_valid():
+            rev : Review = f.save(commit=False)
+            customer = Customer.objects.get(user=request.user)
+            rev.dish = Dish.objects.get(pk=id)
+            rev.reviewer = request.user
+            rev.save()
+            messages.success(request, 'Review added')
+            return render(request, 'orders/register.html', {'form': f})
+    else:
+        f = ReviewForm()
+    return render(request, 'orders/register.html', {'form': f})
+
+
 def orderPlaced(request):
     print(dict(request.POST))
 
@@ -35,7 +53,7 @@ def orderPlaced(request):
 
     customer = Customer.objects.get(user=request.user)
 
-    orders = {get_dish(k): int(v[0]) for k, v in request.POST.items() if k != 'csrfmiddlewaretoken'}
+    orders = {get_dish(k): int(v[0]) for k, v in request.POST.items() if k != 'csrfmiddlewaretoken' and int(v[0]) != 0}
 
     ord = Order(vis=customer)
     ord.save()
@@ -104,10 +122,10 @@ def realCustomerRegister(request):
         f = CustomerRegistrationForm(request.POST)
         if f.is_valid():
             a = f.save(commit=False)
-            addr = ShippingAddress(
-                address1 = f.cleaned_data['address'],
-                zip_code = f.cleaned_data['zip_code'],
-                city = f.cleaned_data['city']
+            addr = Address(
+                address=f.cleaned_data['address'],
+                zip_code=f.cleaned_data['zip_code'],
+                city=f.cleaned_data['city']
             )
             addr.save()
             b = User.objects.create_user(
@@ -117,13 +135,20 @@ def realCustomerRegister(request):
             )
             b.save()
             a.user = b
-            a.shipping = addr
+            a.address = addr
             a.save()
             messages.success(request, 'Account created successfully')
             return render(request, 'orders/cregister.html', {'form': f})
     else:
         f = CustomerRegistrationForm()
     return render(request, 'orders/cregister.html', {'form': f})
+
+
+def to_table(items, start_col=0):
+    arr = [model_to_dict(x) for x in items]
+    headers = [x for x in arr[0]]
+    rows = [x.values() for x in arr]
+    return {'headers': headers, 'rows': rows}
 
 
 # Let customers log in
@@ -152,9 +177,11 @@ def customerLogin(request):
 def customerProfile(request):
     user = request.user
     customer = Customer.objects.get(user=user)
-    addr = urllib.parse.quote(str(customer.shipping))
+    addr = urllib.parse.quote(str(customer.address))
     info = PaymentInfo.objects.filter(customer=customer)
-    context = {'v': customer, 'i': info, 'location' : addr}
+    context = {'v': customer, 'i': info, 'location': addr}
+    orders = Order.objects.filter(vis=customer)
+    context = {'orders' : orders}
     print(context)
     # context = {'visitor': user}
     return render(request, 'orders/profile.html', context)

@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -5,19 +7,19 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 
-class ShippingAddress(models.Model):
-    address1 = models.CharField("Address line 1", max_length=1024)
-    zip_code = models.CharField("ZIP / Postal code", max_length=12)
+class Address(models.Model):
+    street_addr = models.CharField("Street Address", max_length=1024)
     city = models.CharField("City", max_length=1024)
+    zip_code = models.CharField("ZIP / Postal code", max_length=12)
 
     def __str__(self):
-        return '\n'.join([self.address1,self.zip_code,self.city])
+        return '\n'.join([self.address1, f'{self.city} {self.zip_code}'])
 
 
 class Visitor(models.Model):
     f_name = models.CharField(max_length=100, blank=False, null=False)
     l_name = models.CharField(max_length=100, blank=False, null=False)
-    shipping = models.ForeignKey(ShippingAddress, null=True, on_delete=models.DO_NOTHING)
+    address = models.ForeignKey(Address, null=True, on_delete=models.DO_NOTHING)
     email = models.CharField(max_length=50, blank=False, null=False)
     phone = models.CharField(max_length=10, default=0, blank=False, null=False)
     blacklisted = models.BooleanField(default=False)
@@ -51,28 +53,6 @@ class PaymentInfo(models.Model):
     )
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
 
-
-class Delivery(models.Model):
-    d_f_name = models.CharField(max_length=100, blank=False, null=False)
-    d_l_name = models.CharField(max_length=100, blank=False, null=False)
-    d_phone = models.CharField(max_length=20, blank=False, null=False)
-    rating = models.IntegerField(
-        default=5,
-        validators=[MaxValueValidator(5), MinValueValidator(1)]
-    )
-    review_text = models.TextField(blank=True, null=True)
-    coordinates = models.CharField(max_length=10, blank=False, null=False)
-
-    # bid = models.ForeignKey(Manager, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f'{self.d_f_name} {self.d_l_name}: phone number {self.d_phone}'
-
-    def rating(self):
-        reviews = self.review_set.all()
-        return sum(x.rating for x in reviews) / len(reviews)
-
-
 class Dish(models.Model):
     name = models.CharField(max_length=60)
     description = models.TextField()
@@ -90,9 +70,10 @@ class Dish(models.Model):
 
 class Order(models.Model):
     vis = models.ForeignKey(Visitor, on_delete=models.DO_NOTHING)
+    order_time = models.DateTimeField(auto_now_add=True)
 
     def items(self):
-        order_item = OrderItem.objects.filter(dish=self)
+        order_item = OrderItem.objects.filter(order=self)
         return {x.dish: x.quantity for x in order_item}
 
     def price(self):

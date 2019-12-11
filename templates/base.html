@@ -1,24 +1,66 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>{% block title %}Django Auth Tutorial{% endblock %}</title>
+    <meta charset="utf-8">
+    <title>{% block title %}Django Auth Tutorial{% endblock %}</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+            Helvetica, Arial, sans-serif,
+            "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            margin: 40px auto;
+            max-width: 800px;
+            padding: 0 10px;
+            font-size: 16px;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        h1, h2, h3 {
+            line-height: 1.2
+        }
+
+        .menu {
+            background-color: #f8f9fa;
+            color: #222;
+            border: 1px solid #a2a9b1;
+            border-collapse: collapse
+        }
+
+        .menu > tr > th,
+        .menu > tr > td,
+        .menu > * > tr > th,
+        .menu > * > tr > td {
+            border: 1px solid #a2a9b1;
+            padding: 0.2em 0.4em
+        }
+
+        .menu > tr > th,
+        .menu > * > tr > th {
+            background-color: #eaecf0;
+            text-align: center
+        }
+
+        .menu > caption {
+            font-weight: bold
+        }
+    </style>
 </head>
 <body>
-  <div class="navbar">
+<div class="navbar">
     {% if user.is_authenticated %}
     Welcome {{ user.username }}!
     <a href="{% url 'logout' %}">logout</a>
     {% else %}
-      You are logged out.
+    You are logged out.
     <a href="{% url 'login' %}">login</a>
     {% endif %}
     {% block navbar %}
     {% endblock %}
-  </div>
-  <main>
+</div>
+<main>
     {% block content %}
     {% endblock %}
-  </main>
+</main>
 </body>
 </html>

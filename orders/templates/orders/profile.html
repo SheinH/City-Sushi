@@ -1,51 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'orders/order_base.html' %}
 {% block title %}Profile{% endblock %}
 {% block content %}
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-            Helvetica, Arial, sans-serif,
-            "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-            margin: 40px auto;
-            max-width: 800px;
-            padding: 0 10px;
-            font-size: 16px;
-            line-height: 1.5;
-            word-wrap: break-word;
-        }
-
-        h1, h2, h3 {
-            line-height: 1.2
-        }
-
-        .profile {
-            background-color: #f8f9fa;
-            color: #222;
-            margin: 1em 0;
-            border: 1px solid #a2a9b1;
-            border-collapse: collapse
-        }
-
-        .profile > tr > th,
-        .profile > tr > td,
-        .profile > * > tr > th,
-        .profile > * > tr > td {
-            border: 1px solid #a2a9b1;
-            padding: 0.2em 0.4em
-        }
-
-        .profile > tr > th,
-        .profile > * > tr > th {
-            background-color: #eaecf0;
-            text-align: center
-        }
-
-        .profile > caption {
-            font-weight: bold
-        }
-    </style>
 <h1>PROFILE</h1>
-<table class="profile">
+<table class="menu profile">
     <tr>
         <th>First Name</th>
         <th>Last Name</th>
@@ -66,6 +23,7 @@
 <h1>PAYMENT INFO</h1>
 <a href="{% url 'orders:addpayment'%}">Add Payment Info</a>
 <table class="profile">
+<table class="menu profile">
     <tr>
         <th>Card Name</th>
         <th>Card Number</th>
@@ -83,7 +41,25 @@
         </tr>
         {% endfor %}
 </table>
-
+<h1>ORDER HISTORY</h1>
+<table class="menu profile">
+    <tr>
+        <th>Order Time</th>
+        <th>Price</th>
+        <th>Status</th>
+    </tr>
+    {% for x in orders %}
+    <tr>
+        <td>{{x.order_time}}</td>
+        <td>{{x.price}}</td>
+        <td>Cooking</td>
+    </tr>
+    {% endfor %}
+</table>
+<form action="{% url 'orders:addpayment' %}" method="get">
+    <input type="submit" value="Add Card"
+         name="Submit" id="frm1_submit" />
+</form>
 
 <iframe width="600" height="450" frameborder="0" style="border:0"
 src="https://www.google.com/maps/embed/v1/directions?origin=City+Hall,New+York,NY
