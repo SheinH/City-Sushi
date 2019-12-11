@@ -55,10 +55,23 @@ class PaymentInfo(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
 
 
+class Cook(models.Model):
+    c_name = models.CharField(max_length=50, blank=False, null=False)
+    commission = models.IntegerField(default=0, blank=False, null=False)
+    warning = models.IntegerField(default=3,
+                                  validators=[MaxValueValidator(3), MinValueValidator(0)])
+    c_laid_off = models.BooleanField(default=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.c_name
+
+
 class Dish(models.Model):
     name = models.CharField(max_length=60)
     description = models.TextField()
     price = models.IntegerField(default=100)
+    cook = models.ForeignKey(Cook, null=True, on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return self.name
@@ -86,11 +99,20 @@ class Order(models.Model):
         return price
 
 
+    def is_ready(self):
+        items = self.items()
+        for x in items:
+            if not x.is_cooked:
+                return False
+        return True
+
+
 class OrderItem(models.Model):
     dish = models.ForeignKey(Dish, on_delete=models.DO_NOTHING)
     quantity = models.IntegerField(
         validators=[MinValueValidator(1)]
     )
+    is_cooked = models.BooleanField(default=False)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
 
 
@@ -133,25 +155,6 @@ class Manager(models.Model):
         return self.r_name
 
 
-# class Delivery(models.Model):
-#     d_f_name = models.CharField(max_length=100, blank=False, null=False)
-#     d_l_name = models.CharField(max_length=100, blank=False, null=False)
-#     d_phone = models.CharField(max_length=20, blank=False, null=False)
-#     rating = models.IntegerField(
-#         default=5,
-#         validators=[MaxValueValidator(5), MinValueValidator(1)]
-#     )
-#     review_text = models.TextField(blank=True, null=True)
-#     coordinates = models.CharField(max_length=10, blank=False, null=False)
-#     bid = models.ForeignKey(Manager, on_delete=models.DO_NOTHING)
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#
-#     def __str__(self):
-#         return f'{self.d_f_name} {self.d_l_name}: phone number {self.d_phone}'
-#
-#     def rating(self):
-#         reviews = self.review_set.all()
-#         return sum(x.rating for x in reviews) / len(reviews)
 class Deliverer(models.Model):
     f_name = models.CharField(max_length=100, blank=False, null=False)
     l_name = models.CharField(max_length=100, blank=False, null=False)
@@ -188,16 +191,3 @@ class Inventory(models.Model):
     def rating(self):
         reviews = self.review_set.all()
         return sum(x.rating for x in reviews) / len(reviews)
-
-
-class Cook(models.Model):
-    c_name = models.CharField(max_length=50, blank=False, null=False)
-    commission = models.IntegerField(default=0, blank=False, null=False)
-    warning = models.IntegerField(default=3,
-                                  validators=[MaxValueValidator(3), MinValueValidator(0)])
-    c_laid_off = models.BooleanField(default=False)
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.c_name

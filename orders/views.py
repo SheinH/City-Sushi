@@ -70,7 +70,9 @@ def logout(request):
     logout(request)
     return redirect("login")
 
-
+def cookView(request):
+    items = OrderItem.objects.filter(is_cooked=True)
+    return render(request,'orders/cookpage.html',{'items' : items})
 # Customer side of things
 
 # Register customer account

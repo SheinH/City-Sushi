@@ -13,6 +13,7 @@ urlpatterns = [
     path('cregister/', views.realCustomerRegister, name='cregister'),
     path('cregister/', views.realCustomerRegister, name='cregister'),
     path('profile/', views.customerProfile, name='profile'),
+    path('cooking/', views.cookView, name='cooking'),
     path('profile/addpayment', views.add_payment_form, name='addpayment'),
     path('customer/create/', views.createCustomer, name='ccreate'),
     path('review/<int:id>/', views.review, name='review'),
