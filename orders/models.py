@@ -30,7 +30,7 @@ class Visitor(models.Model):
 
 class Customer(Visitor):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    vip = models.BooleanField(default=Falseta )
+    vip = models.BooleanField(default=False)
 
     # TODO: Add ___str__() method
     # TODO: Investigate whether or not Customer can inherit from User instead of Model
@@ -53,6 +53,7 @@ class PaymentInfo(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(999)]
     )
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+
 
 class Dish(models.Model):
     name = models.CharField(max_length=60)
@@ -132,7 +133,6 @@ class Manager(models.Model):
         return self.r_name
 
 
-<<<<<<< HEAD
 # class Delivery(models.Model):
 #     d_f_name = models.CharField(max_length=100, blank=False, null=False)
 #     d_l_name = models.CharField(max_length=100, blank=False, null=False)
@@ -152,12 +152,10 @@ class Manager(models.Model):
 #     def rating(self):
 #         reviews = self.review_set.all()
 #         return sum(x.rating for x in reviews) / len(reviews)
-=======
 class Deliverer(models.Model):
     f_name = models.CharField(max_length=100, blank=False, null=False)
     l_name = models.CharField(max_length=100, blank=False, null=False)
     phone = models.CharField(max_length=10, default=0, blank=False, null=False)
->>>>>>> d298f0b009f07769f77b13e2224453b64e25b78b
 
 
 class Sales(models.Model):
