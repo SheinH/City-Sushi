@@ -39,10 +39,10 @@ def review(request, id):
             rev.reviewer = request.user
             rev.save()
             messages.success(request, 'Review added')
-            return render(request, 'orders/register.html', {'form': f})
+            return render(request, 'orders/review.html', {'form': f})
     else:
         f = ReviewForm()
-    return render(request, 'orders/register.html', {'form': f})
+    return render(request, 'orders/review.html', {'form': f})
 
 
 def orderPlaced(request):

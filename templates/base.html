@@ -50,10 +50,10 @@
 <div class="navbar">
     {% if user.is_authenticated %}
     Welcome {{ user.username }}!
-    <a href="{% url 'logout' %}">logout</a>
+    <a href="{% url 'logout' %}">Logout</a>
     {% else %}
     You are logged out.
-    <a href="{% url 'login' %}">login</a>
+    <a href="{% url 'login' %}">Login</a>
     {% endif %}
     {% block navbar %}
     {% endblock %}
