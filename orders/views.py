@@ -8,7 +8,7 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 
 from .forms import CustomerSignUpForm, CustomerForm, PaymentForm, CustomerRegistrationForm
-from .models import Customer, Dish, Order, OrderItem, PaymentInfo
+from .models import Customer, Dish, Order, OrderItem, PaymentInfo, ShippingAddress
 from .models import Restaurant
 
 # Homepage
@@ -104,14 +104,20 @@ def realCustomerRegister(request):
         f = CustomerRegistrationForm(request.POST)
         if f.is_valid():
             a = f.save(commit=False)
+            addr = ShippingAddress(
+                address1 = f.cleaned_data['address'],
+                zip_code = f.cleaned_data['zip_code'],
+                city = f.cleaned_data['city']
+            )
+            addr.save()
             b = User.objects.create_user(
                 username=f.cleaned_data['username'],
                 password=f.cleaned_data['password'],
                 email=a.email
             )
-
             b.save()
             a.user = b
+            a.shipping = addr
             a.save()
             messages.success(request, 'Account created successfully')
             return render(request, 'orders/cregister.html', {'form': f})

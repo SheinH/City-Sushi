@@ -44,7 +44,9 @@ class CustomerSignUpForm(forms.Form):
 
 class CustomerRegistrationForm(forms.ModelForm):
     username = forms.CharField(label='Username', min_length=5, max_length=20)
-    shipping = forms.CharField(label="Shipping Address", max_length=200)
+    address = forms.CharField(label="Address", max_length=1024)
+    zip_code = forms.CharField(label="ZIP / Postal code", max_length=12)
+    city = forms.CharField(label="City", max_length=1024)
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
     password_confirm = forms.CharField(label='Re-enter password', widget=forms.PasswordInput)
 
