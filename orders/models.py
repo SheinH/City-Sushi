@@ -131,7 +131,6 @@ class Manager(models.Model):
         return self.r_name
 
 
-#
 # class Delivery(models.Model):
 #     d_f_name = models.CharField(max_length=100, blank=False, null=False)
 #     d_l_name = models.CharField(max_length=100, blank=False, null=False)
