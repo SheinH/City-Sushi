@@ -10,6 +10,7 @@ urlpatterns = [
     path('register/', views.customerRegister, name='register'),
     # path('customer/login/', views.customerLogin, name='login'),
     path('profile/', views.customerProfile, name='profile'),
+    path('profile/addpayment', views.add_payment_form, name='addpayment'),
     path('customer/create/', views.createCustomer, name='ccreate'),
     path('user/update/<int:id>/', views.updateCustomer, name='cupdate'),
     # path('checkout/', views.checkout, name='checkout')

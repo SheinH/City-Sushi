@@ -1,7 +1,9 @@
 {% extends "base.html" %}
-
+{% block navbar %}
+<a href="{% url 'orders:profile' %}">Profile</a>
+{% endblock %}
 {% block title %}
-    Create User - {{ block.super }}
+Add Payment - {{ block.super }}
 {% endblock %}
 
 {% block content %}

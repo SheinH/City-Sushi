@@ -70,13 +70,14 @@ def add_payment_form(request):
     customer = Customer.objects.get(user=request.user)
     if request.method == 'POST':
         f = PaymentForm(request.POST)
-        f.customer = customer
         if f.is_valid():
-            f.save()
+            a = f.save(commit=False)
+            a.customer = customer
+            a.save()
             messages.success(request, 'Saved payment info')
-            return render(request, 'orders/profile.html', {'form': f})
+            return redirect('orders:profile')
     else:
-        f = CustomerSignUpForm()
+        f = PaymentForm()
     return render(request, 'orders/register.html', {'form': f})
 
 
