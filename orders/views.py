@@ -8,7 +8,7 @@ from django.shortcuts import render
 
 from .forms import CustomerSignUpForm, CustomerForm, PaymentForm
 from .models import Customer, Dish, Order, OrderItem, PaymentInfo
-
+from .models import Restaurant
 
 # Homepage
 def index(request):
@@ -20,6 +20,11 @@ def menu(request):
     print(Dish.objects.all())
     return render(request, 'orders/menu.html', context)
 
+
+def main(request):
+    context = {'r': Restaurant.objects.all()}
+    print(Restaurant.objects.all())
+    return render(request, 'orders/main.html', context)
 
 def orderPlaced(request):
     print(dict(request.POST))
