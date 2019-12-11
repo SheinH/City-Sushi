@@ -13,7 +13,7 @@ class Address(models.Model):
     zip_code = models.CharField("ZIP / Postal code", max_length=12)
 
     def __str__(self):
-        return '\n'.join([self.address1, f'{self.city} {self.zip_code}'])
+        return '\n'.join([self.street_addr, f'{self.city} {self.zip_code}'])
 
 
 class Visitor(models.Model):

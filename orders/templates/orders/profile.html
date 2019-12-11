@@ -14,15 +14,14 @@
     <tr>
         <td>{{ v.f_name }}</td>
         <td>{{ v.l_name }}</td>
-        <td>{{ v.shipping }}</td>
+        <td>{{ v.address }}</td>
         <td>{{ v.email }}</td>
         <td>{{ v.phone }}</td>
-        <td>{{ v.blacklisted}}</td>
+        <td>{{ v.blacklisted }}</td>
     </tr>
 </table>
 <h1>PAYMENT INFO</h1>
 <a href="{% url 'orders:addpayment'%}">Add Payment Info</a>
-<table class="profile">
 <table class="menu profile">
     <tr>
         <th>Card Name</th>
@@ -67,4 +66,3 @@ src="https://www.google.com/maps/embed/v1/directions?origin=City+Hall,New+York,N
 &key=AIzaSyCTPKfDZTXUbICmEu6si2IgJ_1abYiMa_g" allowfullscreen></iframe>
 
 {% endblock %}
-

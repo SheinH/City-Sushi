@@ -29,11 +29,12 @@ def main(request):
     print(Restaurant.objects.all())
     return render(request, 'orders/main.html', context)
 
+
 def review(request, id):
     if request.method == 'POST':
         f = ReviewForm(request.POST)
         if f.is_valid():
-            rev : Review = f.save(commit=False)
+            rev: Review = f.save(commit=False)
             customer = Customer.objects.get(user=request.user)
             rev.dish = Dish.objects.get(pk=id)
             rev.reviewer = request.user
@@ -99,7 +100,7 @@ def add_payment_form(request):
             a.customer = customer
             a.save()
             messages.success(request, 'Saved payment info')
-            return redirect('orders:profile')
+            return redirect('orders:addpayment')
     else:
         f = PaymentForm()
     return render(request, 'orders/addpayment.html', {'form': f})
@@ -123,7 +124,7 @@ def realCustomerRegister(request):
         if f.is_valid():
             a = f.save(commit=False)
             addr = Address(
-                address=f.cleaned_data['address'],
+                street_addr=f.cleaned_data['address'],
                 zip_code=f.cleaned_data['zip_code'],
                 city=f.cleaned_data['city']
             )
@@ -181,7 +182,7 @@ def customerProfile(request):
     info = PaymentInfo.objects.filter(customer=customer)
     context = {'v': customer, 'i': info, 'location': addr}
     orders = Order.objects.filter(vis=customer)
-    context = {'orders' : orders}
+    context = {'orders': orders}
     print(context)
     # context = {'visitor': user}
     return render(request, 'orders/profile.html', context)
